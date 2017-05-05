@@ -34,16 +34,13 @@ reg [9:0] vc;
 // posedge = borda ascendente & negedge = borda descendente
 // As instruções de atribuição só podem ser usadas no tipo "reg" e precisam ser do tipo "não bloqueador": <=
 
-always @(posedge dclk or posedge clr)
-begin
+always @(posedge dclk or posedge clr) begin
 	// reset condition
-	if (clr == 1)
-	begin
+	if (clr == 1) begin
 		hc <= 0;
 		vc <= 0;
 	end
-	else
-	begin
+	else begin
 		// continua contando até o final da linha
 		if (hc < hpixels - 1)
 			hc <= hc + 1;
@@ -79,85 +76,77 @@ assign vsync = (vc < vpulse) ? 0:1;
 // é automaticamente incluído na lista de sensibilidade. Neste caso, seria
 // equivalente ao seguinte: always @ (hc, vc)
 // As instruções de atribuição só podem ser usadas no tipo "reg" e devem ser do tipo "bloqueio": =
-always @(*)
-begin
+always @(*) begin
 	// primeiro verifique se estamos dentro do intervalo de vídeo ativo vertical
-	if (vc >= vbp && vc < vfp)
-	begin
+	if (vc >= vbp && vc < vfp) begin
 	// agora exibem cores diferentes a cada 80 pixels
 	// enquanto estamos dentro da faixa horizontal ativa
 	// -----------------
 	// exibir barra branca
-		if (hc >= hbp && hc < (hbp+80))
-		begin
+		if (hc >= hbp && hc < (hbp+80)) begin
 			red = 3'b111;
 			green = 3'b111;
 			blue = 2'b11;
 		end
 		// exibir barra amarela
-		else if (hc >= (hbp+80) && hc < (hbp+160))
-		begin
+		else if (hc >= (hbp+80) && hc < (hbp+160)) begin
 			red = 3'b111;
 			green = 3'b111;
 			blue = 2'b00;
 		end
 		// exibir barra ciano
-		else if (hc >= (hbp+160) && hc < (hbp+240))
-		begin
+		else if (hc >= (hbp+160) && hc < (hbp+240)) begin
 			red = 3'b000;
 			green = 3'b111;
 			blue = 2'b11;
 		end
 		// exibir barra verde
-		else if (hc >= (hbp+240) && hc < (hbp+320))
-		begin
+		else if (hc >= (hbp+240) && hc < (hbp+320)) begin
 			red = 3'b000;
 			green = 3'b111;
 			blue = 2'b00;
 		end
 		//exibir barra magenta
-		else if (hc >= (hbp+320) && hc < (hbp+400))
-		begin
+		else if (hc >= (hbp+320) && hc < (hbp+400)) begin
 			red = 3'b111;
 			green = 3'b000;
 			blue = 2'b11;
 		end
 		//exibir barra vermenha
-		else if (hc >= (hbp+400) && hc < (hbp+480))
-		begin
+		else if (hc >= (hbp+400) && hc < (hbp+480)) begin
 			red = 3'b111;
 			green = 3'b000;
 			blue = 2'b00;
 		end
 		// Exibir barra azul
-		else if (hc >= (hbp+480) && hc < (hbp+560))
-		begin
+		else if (hc >= (hbp+480) && hc < (hbp+560)) begin
 			red = 3'b000;
 			green = 3'b000;
 			blue = 2'b11;
 		end
 		// exibir barra preta
-		else if (hc >= (hbp+560) && hc < (hbp+640))
-		begin
+		else if (hc >= (hbp+560) && hc < (hbp+640)) begin
 			red = 3'b000;
 			green = 3'b000;
 			blue = 2'b00;
 		end
 		// estamos fora da faixa horizontal ativa para exibir preto
-		else
-		begin
+		else begin
 			red = 0;
 			green = 0;
 			blue = 0;
 		end
 	end
 	// estamos fora da faixa vertical ativa para exibir preto
-	else
-	begin
+	else begin
 		red = 0;
 		green = 0;
 		blue = 0;
 	end
 end
 
+endmodule
+
+module test;
+	vga640x480 vga();
 endmodule
