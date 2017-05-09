@@ -10,7 +10,7 @@ module LED (
 
 	always @ (posedge CLOCK_50) begin
     	counter <= counter + 2;
-    	state <= counter[24];
+    	state <= counter[25];
 	end
 
 endmodule
