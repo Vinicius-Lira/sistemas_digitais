@@ -9,7 +9,7 @@ module LED (
 	assign LEDG = state;
 
 	always @ (posedge CLOCK_50) begin
-    	counter <= counter + 1;
+    	counter <= counter + 2;
     	state <= counter[24];
 	end
 
