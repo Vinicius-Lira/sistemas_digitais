@@ -50,6 +50,9 @@ module sing(
 
 endmodule
 
+module PointInTriangle();
+        
+endmodule
 
 module test();
         reg [9:0] px;
