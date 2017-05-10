@@ -19,11 +19,10 @@ i = 0
 while True:
     try:
         listaPx[i], listaPy[i] = [int(x) for x in input().split()]
-        print("%d %d" %(listaPx[i], listaPy[i]))
     except EOFError:
         break
     i += 1
     if i == 4:
         X = PointInTriangle(P(listaPx[3], listaPy[3]), P(listaPx[0], listaPy[0]), P(listaPx[1], listaPy[1]), P(listaPx[2], listaPy[2]))
-        print("X: ",X)
+        print(X)
         i = 0
