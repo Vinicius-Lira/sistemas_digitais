@@ -1,0 +1,104 @@
+$date
+	Tue May  9 20:59:49 2017
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module test $end
+$scope module sinal $end
+$var wire 1 ! LEDG $end
+$var wire 10 " px [9:0] $end
+$var wire 10 # py [9:0] $end
+$var wire 1 $ selPonto $end
+$var wire 10 % sing [9:0] $end
+$var wire 11 & p4 [10:0] $end
+$var wire 11 ' p3 [10:0] $end
+$var wire 11 ( p2 [10:0] $end
+$var wire 11 ) p1 [10:0] $end
+$var reg 10 * p1x [9:0] $end
+$var reg 10 + p1y [9:0] $end
+$var reg 10 , p2x [9:0] $end
+$var reg 10 - p2y [9:0] $end
+$var reg 10 . p3x [9:0] $end
+$var reg 10 / p3y [9:0] $end
+$var reg 10 0 ptx [9:0] $end
+$var reg 10 1 pty [9:0] $end
+$var reg 3 2 state [2:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 2
+bx 1
+bx 0
+bx /
+bx .
+bx -
+bx ,
+bx +
+bx *
+bx )
+bx (
+bx '
+bx &
+bx %
+x$
+bx #
+bx "
+z!
+$end
+#2
+b1 2
+0$
+#4
+b10 2
+b10 #
+b10 "
+1$
+#6
+b11 2
+b10 /
+b10 .
+0$
+#8
+b100 2
+b10 1
+b10 0
+b0 #
+b0 "
+1$
+#10
+b0 2
+0$
+#12
+b1 2
+b11111111110 &
+b0 +
+b11111111110 )
+b0 *
+b100 "
+1$
+#14
+b1000 %
+b10 2
+b11111111110 (
+b0 -
+b10 '
+b100 ,
+0$
+#16
+b0 %
+b11 2
+b0 (
+b0 &
+b0 /
+b11111111100 )
+b0 '
+b100 .
+b1 #
+b11 "
+1$
