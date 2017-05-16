@@ -1,0 +1,7 @@
+pastebin.com/iUpaXD9v
+
+
+Executar comandos terminal
+https://pt.stackoverflow.com/questions/29846/como-chamar-comando-externo-com-python
+
+http://blog.evaldojunior.com.br/aulas/python/2009/02/08/curso-de-python-aula-12.html

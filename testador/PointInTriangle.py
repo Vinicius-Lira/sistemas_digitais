@@ -25,6 +25,10 @@ def main():
         i += 1
         if i == 4:
             X = PointInTriangle(P(listaPx[3], listaPy[3]), P(listaPx[0], listaPy[0]), P(listaPx[1], listaPy[1]), P(listaPx[2], listaPy[2]))
+            if(X == True):
+                print(True)
+            else:
+                print(False)
             i = 0
-
-main()
+if __name__ == "__main__":
+    main()
