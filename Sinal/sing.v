@@ -21,16 +21,16 @@ module sing(
     wire signed [22:0] Mult1;
     wire signed [22:0] Mult2;
 
-    /*
+    
     assign Sub1 = PTX - P2X;
     assign Sub2 = P1Y - P2Y;
     assign Sub3 = P1X - P2X;
-    assign Sub4 = PTY - P2Y;*/
+    assign Sub4 = PTY - P2Y;
 
-    assign Sub1 = PTX - P2Y;
+    /*assign Sub1 = PTX - P2Y;
     assign Sub2 = P1Y - P2Y;
     assign Sub3 = P1Y - P2X;
-    assign Sub4 = PTY - P2Y;
+    assign Sub4 = PTY - P2Y;*/
 
     assign Mult1 = Sub1 * Sub2;
     assign Mult2 = Sub3 * Sub4;
@@ -84,38 +84,53 @@ module test;
 
     wire InTriangle;
 
-    PointInTriangle P(P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTX, InTriangle);
+    PointInTriangle P(P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTY, InTriangle);
 
 
     initial begin
         $dumpvars(0, P);
 
         #1
-        P1X <= 2;
-        P1Y <= 2;
+        P1X <= 0;
+        P1Y <= 1;
         #1
-        P2X <= 3;
-        P2Y <= 6;
+        P2X <= 6;
+        P2Y <= 1;
         #1
-        P3X <= 4;
-        P3Y <= 2;
+        P3X <= 3;
+        P3Y <= 4;
         #1
         PTX <= 3;
-        PTY <= 3;
+        PTY <= 2;
 
         #1
-        P1X <= 2;
-        P1Y <= 2;
+        P1X <= 0;
+        P1Y <= 1;
         #1
-        P2X <= 3;
-        P2Y <= 6;
+        P2X <= 6;
+        P2Y <= 1;
         #1
-        P3X <= 4;
-        P3Y <= 2;
+        P3X <= 3;
+        P3Y <= 4;
         #1
-        PTX <= 20;
-        PTY <= 20;
-        #40
+        PTX <= 6;
+        PTY <= 4;
+
+        #1
+        P1X <= 0;
+        P1Y <= 1;
+        #1
+        P2X <= 6;
+        P2Y <= 1;
+        #1
+        P3X <= 3;
+        P3Y <= 4;
+        #1
+        PTX <= 8;
+        PTY <= 2;
+
+
+        #10
         $finish;
     end
 endmodule

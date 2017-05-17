@@ -4,7 +4,7 @@ from random import randint
 
 def numrand():
     return randint(0, 1000)
-
+# sorteia 4 coordenadas de um triangulo
 def arquivo():
     arq = open('a.in', 'w')
     for i in range(0, 4):
@@ -16,11 +16,15 @@ def arquivo():
     arq.close()
 
 def executapython():
-    os.system("python3 PointInTriangle.py < a.in > a.out")
+    os.system("python3 PointInTriangle.py < a.in > singPY.txt")
+
+def executaverilog():
+    os.system("./sing")
+
 
 def comparaArq():
-    arq1 = open('saidaPY.out', 'r')
-    arq2 = open('saidaVerilog.out', 'r')
+    arq1 = open('saidaSingPy.out', 'r')
+    arq2 = open('saidaSingVerilog.out', 'r')
     saida1 = arq1.read()
     saida2 = arq2.read()
     if(saida1 == saida2):
@@ -28,24 +32,35 @@ def comparaArq():
     else:
         print("False")
 
-def main(qtteste):
+def main():
     qt = int(input())
-    arq = open('saidaPY.out', 'w')
-    for i in range(0,qtteste):
+    arqPointInTriangle = open('saidaSingPy.out', 'w')
+    arqSing = open('saidaSingVerilog.out', 'w')
+    for i in range(0,qt):
         arquivo()
         executapython()
-        arq1 = open('a.out', 'r')
-        saida = arq1.read()
-        arq1.close()
-        arq.write(str(saida))
-        os.system("rm -r a.out")
-        os.system("rm -r a.in")
-    arq.close()
+        executaverilog()
+        arqPY = open('singPY.txt', 'r')
+        arqVerilog = open('singVerilog.txt', 'r')
+        saidapy = arqPY.read()
+        saidaverilog = arqVerilog.read()
+        arqPY.close()
+        arqVerilog.close()
+        arqPointInTriangle.write(str(saidapy))
+        arqSing.write(str(saidaverilog))
+    arqPointInTriangle.close()
+    arqSing.close()
 
 if __name__ == "__main__":
-    main(100)
+    main()
     comparaArq()
-    if(os.path.isfile('saidaPY.out')):
-        os.system("rm -r saidaPY.out")
-    if(os.path.isfile('saidaVerilog.out')):
-        os.system("rm -r saidaVerilog.out")
+    '''if(os.path.isfile('saidaSingPy.out')):
+        os.system("rm -r saidaSingPy.out")
+    if(os.path.isfile('saidaSingVerilog.out')):
+        os.system("rm -r saidaSingVerilog.out")
+    if(os.path.isfile('singPY.txt')):
+        os.system("rm -r singPY.txt")
+    if(os.path.isfile('singVerilog.txt')):
+        os.system("rm -r singVerilog.txt")
+    if(os.path.isfile('a.in')):
+        os.system("rm -r a.in")'''

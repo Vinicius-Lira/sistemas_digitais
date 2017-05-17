@@ -21,16 +21,16 @@ module sing(
     wire signed [22:0] Mult1;
     wire signed [22:0] Mult2;
 
-    /*
+
     assign Sub1 = PTX - P2X;
     assign Sub2 = P1Y - P2Y;
     assign Sub3 = P1X - P2X;
-    assign Sub4 = PTY - P2Y;*/
+    assign Sub4 = PTY - P2Y;
 
-    assign Sub1 = PTX - P2Y;
+    /*assign Sub1 = PTX - P2Y;
     assign Sub2 = P1Y - P2Y;
     assign Sub3 = P1Y - P2X;
-    assign Sub4 = PTY - P2Y;
+    assign Sub4 = PTY - P2Y;*/
 
     assign Mult1 = Sub1 * Sub2;
     assign Mult2 = Sub3 * Sub4;
@@ -84,36 +84,38 @@ module test;
 
     wire InTriangle;
 
-    PointInTriangle P(P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTX, InTriangle);
+    PointInTriangle P(P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTY, InTriangle);
 
+    integer in, out, mon;
+    integer status;
     reg clk = 0;
 
-    integer data_file; //file handler
-    integer scan_file; //file handler
-    logic signed [21:0] Px;
-    logic signed [21:0] Py;
-    `define NULL 0
-    reg [21:0] x;
-    reg [21:0] y;
-
     initial begin
-        data_file = $fopen("data_file.dat", "r");
-        if(data_file == `NULL) begin
-            $display("data_file hanfle was NULL");
-            $finish;
-        end else begin
-            clk <= ~clk;
-            $display("data_file hanfle was not NULL");
-            //$display("%d %d", $signed(Px), $signed(Py));
-            $display("%d", Px);
-        end
+        clk = 0;
+        in = $fopen("a.in", "r");
+        out = $fopen("singVerilog.txt", "w");
     end
 
-    always @(clk) begin
-        scan_file = $fscanf(data_file, "%d\n", Px);
-        if(!$feof(data_file)) begin
-            //use captured_data as you would any other wire or reg value;
-            clk = ~clk;
+    always # 1 clk = ~clk;
+
+    initial begin
+        repeat (10) @ (posedge clk);
+        while(!$feof(in)) begin
+            @(negedge clk);
+            status = $fscanf(in, "%d %d\n", P1X, P1Y);
+            status = $fscanf(in, "%d %d\n", P2X, P2Y);
+            status = $fscanf(in, "%d %d\n", P3X, P3Y);
+            status = $fscanf(in, "%d %d\n", PTX, PTY);
+            @(negedge clk);
         end
+        repeat (10) @ (posedge clk);
+        if(InTriangle == 1) begin
+            $fwrite(out, "True\n");
+        end else begin
+            $fwrite(out, "False\n");
+        end
+        $fclose(in);
+        $fclose(out);
+        #100 $finish;
     end
 endmodule
