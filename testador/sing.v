@@ -27,11 +27,6 @@ module sing(
     assign Sub3 = P1X - P2X;
     assign Sub4 = PTY - P2Y;
 
-    /*assign Sub1 = PTX - P2Y;
-    assign Sub2 = P1Y - P2Y;
-    assign Sub3 = P1Y - P2X;
-    assign Sub4 = PTY - P2Y;*/
-
     assign Mult1 = Sub1 * Sub2;
     assign Mult2 = Sub3 * Sub4;
 
@@ -106,11 +101,16 @@ module test;
             status = $fscanf(in, "%d %d\n", P2X, P2Y);
             status = $fscanf(in, "%d %d\n", P3X, P3Y);
             status = $fscanf(in, "%d %d\n", PTX, PTY);
+            //$display("%d %d", P1X, P1Y);
+            //$display("%d %d", P2X, P2Y);
+            //$display("%d %d", P3X, P3Y);
+            //$display("%d %d", PTX, PTY);
             @(negedge clk);
         end
         repeat (10) @ (posedge clk);
         if(InTriangle == 1) begin
             $fwrite(out, "True\n");
+            //$display(InTriangle);
         end else begin
             $fwrite(out, "False\n");
         end

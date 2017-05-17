@@ -1,41 +1,69 @@
 import os
 import os.path
 from random import randint
+from math import sqrt
 
 def numrand():
-    return randint(0, 1000)
+    return randint(-10, 10)
+
+def verificaTriangulo(Ax, Ay, Bx,  By, Cx, Cy ):
+    '''
+            Distancia entre dois pontos : d2AB = (XB – XA)2 + (YB -YA)2
+                                /\
+                              /    \
+                        A  /        \ B
+                           /           \
+                         /_______\
+                                C
+            Condições de existencia de um triangulo:
+                                | b - c | < a < b + c
+                                | a - c | < b < a + c
+                                | a - b | < c < a + b
+    '''
+    A = sqrt( ((Bx - Ax)**2) + ((By - Ay)**2))
+    B = sqrt( ((Cx - Ax)**2) + ((Cy - Ay)**2))
+    C = sqrt( ((Cx - Bx)**2) + ((Cy - By)**2))
+
+    if( ((abs(B - C)) < A < B + C) & ((abs(A - C)) < B < A + C) & ((abs(A - B)) < C < A + B)):
+        return True
+    else:
+        return False
+
 # sorteia 4 coordenadas de um triangulo
 def arquivo():
     arq = open('a.in', 'w')
-    for i in range(0, 4):
-        x = numrand()
-        y = numrand()
-        arq.write(str(x)+" "+str(y))
-        if(i < 3):
-            arq.write("\n")
+    while True:
+        x1 = numrand()
+        y1 = numrand()
+        x2 = numrand()
+        y2 = numrand()
+        x3 = numrand()
+        y3 = numrand()
+        if(verificaTriangulo(x1, y1, x2,  y2, x3, y3 )):
+            break
+    xpt = numrand()
+    ypt = numrand()
+    arq.write(str(x1)+" "+str(y1)+"\n")
+    arq.write(str(x2)+" "+str(y2)+"\n")
+    arq.write(str(x3)+" "+str(y3)+"\n")
+    arq.write(str(xpt)+" "+str(ypt)+"\n")
     arq.close()
 
 def executapython():
     os.system("python3 PointInTriangle.py < a.in > singPY.txt")
 
 def executaverilog():
+    os.system("iverilog sing.v -o sing")
     os.system("./sing")
 
 
 def comparaArq():
-    arq1 = open('saidaSingPy.out', 'r')
-    arq2 = open('saidaSingVerilog.out', 'r')
-    saida1 = arq1.read()
-    saida2 = arq2.read()
-    if(saida1 == saida2):
-        print("True")
-    else:
-        print("False")
+    os.system("diff -q saidaSingPy.txt saidaSingVerilog.txt")
 
 def main():
     qt = int(input())
-    arqPointInTriangle = open('saidaSingPy.out', 'w')
-    arqSing = open('saidaSingVerilog.out', 'w')
+    arqPointInTriangle = open('saidaSingPy.txt', 'w')
+    arqSing = open('saidaSingVerilog.txt', 'w')
     for i in range(0,qt):
         arquivo()
         executapython()
@@ -46,6 +74,16 @@ def main():
         saidaverilog = arqVerilog.read()
         arqPY.close()
         arqVerilog.close()
+        if(saidapy != saidaverilog):
+            arq = open('teste.txt', 'w')
+            arq.write("Saida PY: " +saidapy)
+            arq.write("Saida Verilog: " +saidaverilog)
+            arqin = open('a.in', 'r')
+            textoin = arqin.read()
+            arqin.close()
+            arq.write(textoin+"\n")
+            arq.close()
+
         arqPointInTriangle.write(str(saidapy))
         arqSing.write(str(saidaverilog))
     arqPointInTriangle.close()
@@ -54,7 +92,7 @@ def main():
 if __name__ == "__main__":
     main()
     comparaArq()
-    '''if(os.path.isfile('saidaSingPy.out')):
+    if(os.path.isfile('saidaSingPy.out')):
         os.system("rm -r saidaSingPy.out")
     if(os.path.isfile('saidaSingVerilog.out')):
         os.system("rm -r saidaSingVerilog.out")
@@ -62,5 +100,5 @@ if __name__ == "__main__":
         os.system("rm -r singPY.txt")
     if(os.path.isfile('singVerilog.txt')):
         os.system("rm -r singVerilog.txt")
-    if(os.path.isfile('a.in')):
+    '''if(os.path.isfile('a.in')):
         os.system("rm -r a.in")'''
