@@ -58,7 +58,10 @@ def executaverilog():
 
 
 def comparaArq():
-    os.system("diff -q saidaSingPy.txt saidaSingVerilog.txt")
+    if((os.system("diff -q saidaSingPy.txt saidaSingVerilog.txt")) == 0):
+        print("Saidas iguais!\n")
+    else:
+        print("Saidas diferentes!\n")
 
 def main():
     qt = int(input())
@@ -92,13 +95,15 @@ def main():
 if __name__ == "__main__":
     main()
     comparaArq()
-    if(os.path.isfile('saidaSingPy.out')):
-        os.system("rm -r saidaSingPy.out")
-    if(os.path.isfile('saidaSingVerilog.out')):
-        os.system("rm -r saidaSingVerilog.out")
+    if(os.path.isfile('saidaSingPy.txt')):
+        os.system("rm -r saidaSingPy.txt")
+    if(os.path.isfile('saidaSingVerilog.txt')):
+        os.system("rm -r saidaSingVerilog.txt")
     if(os.path.isfile('singPY.txt')):
         os.system("rm -r singPY.txt")
     if(os.path.isfile('singVerilog.txt')):
         os.system("rm -r singVerilog.txt")
-    '''if(os.path.isfile('a.in')):
-        os.system("rm -r a.in")'''
+    if(os.path.isfile('a.in')):
+        os.system("rm -r a.in")
+    if(os.path.isfile('sing')):
+        os.system("rm -r sing")

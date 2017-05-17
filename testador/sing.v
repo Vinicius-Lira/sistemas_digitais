@@ -21,7 +21,7 @@ module sing(
     wire signed [22:0] Mult1;
     wire signed [22:0] Mult2;
 
-
+    //Calculo para ver se um ponto está dentro de um triangulo
     assign Sub1 = PTX - P2X;
     assign Sub2 = P1Y - P2Y;
     assign Sub3 = P1X - P2X;
@@ -59,7 +59,7 @@ module PointInTriangle(
     sing S2(PTX, PTY, P2X, P2Y, P3X, P3Y, sin2);
     sing S3(PTX, PTY, P3X, P3Y, P1X, P1Y, sin3);
 
-    assign inTriangle = (sin1 == 1 && sin2 == 1 && sin3 == 1) ? 1 : 0;
+    assign inTriangle = (sin1 == sin2 && sin2 == sin3) ? 1 : 0;
 
 endmodule
 
@@ -97,20 +97,16 @@ module test;
         repeat (10) @ (posedge clk);
         while(!$feof(in)) begin
             @(negedge clk);
+            //Lê o arquivo para pegar os pontos
             status = $fscanf(in, "%d %d\n", P1X, P1Y);
             status = $fscanf(in, "%d %d\n", P2X, P2Y);
             status = $fscanf(in, "%d %d\n", P3X, P3Y);
             status = $fscanf(in, "%d %d\n", PTX, PTY);
-            //$display("%d %d", P1X, P1Y);
-            //$display("%d %d", P2X, P2Y);
-            //$display("%d %d", P3X, P3Y);
-            //$display("%d %d", PTX, PTY);
             @(negedge clk);
         end
         repeat (10) @ (posedge clk);
         if(InTriangle == 1) begin
             $fwrite(out, "True\n");
-            //$display(InTriangle);
         end else begin
             $fwrite(out, "False\n");
         end
