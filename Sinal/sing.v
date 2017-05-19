@@ -27,11 +27,6 @@ module sing(
     assign Sub3 = P1X - P2X;
     assign Sub4 = PTY - P2Y;
 
-    /*assign Sub1 = PTX - P2Y;
-    assign Sub2 = P1Y - P2Y;
-    assign Sub3 = P1Y - P2X;
-    assign Sub4 = PTY - P2Y;*/
-
     assign Mult1 = Sub1 * Sub2;
     assign Mult2 = Sub3 * Sub4;
 
@@ -64,7 +59,7 @@ module PointInTriangle(
     sing S2(PTX, PTY, P2X, P2Y, P3X, P3Y, sin2);
     sing S3(PTX, PTY, P3X, P3Y, P1X, P1Y, sin3);
 
-    assign inTriangle = (sin1 == 1 && sin2 == 1 && sin3 == 1) ? 1 : 0;
+    assign inTriangle = (sin1 == sin2 &&sin2 == sin3) ? 1 : 0;
 
 endmodule
 
