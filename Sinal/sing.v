@@ -59,7 +59,7 @@ module PointInTriangle(
     sing S2(PTX, PTY, P2X, P2Y, P3X, P3Y, sin2);
     sing S3(PTX, PTY, P3X, P3Y, P1X, P1Y, sin3);
 
-    assign inTriangle = (sin1 == sin2 &&sin2 == sin3) ? 1 : 0;
+    assign inTriangle = (sin1 == sin2 && sin2 == sin3) ? 1 : 0;
 
 endmodule
 
