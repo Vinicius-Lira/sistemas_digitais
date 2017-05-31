@@ -3,9 +3,10 @@ module VGA(
 	output [3:0] VGA_R,
 	output [3:0] VGA_G,
 	output [3:0] VGA_B,
-   output [3:0] LEDG,
+   	output [3:0] LEDG,
 	output VGA_HS,
-	output VGA_VS);
+	output VGA_VS
+);
 
 
 reg [30:0] h_count = 0;
@@ -51,12 +52,6 @@ wire visible;
 
 assign visible = (v_count > 35) & (v_count < 515) & (h_count > 285) & (h_count < 1505);
 
-/*
-assign VGA_R = InTriangle ? R : 0;
-assign VGA_G = InTriangle ? G : 0;
-assign VGA_B = InTriangle ? B : 0;
-*/
-
 assign VGA_R = visible ? R : 0;
 assign VGA_G = visible ? G : 0;
 assign VGA_B = visible ? B : 0;
@@ -77,21 +72,16 @@ always @(posedge CLOCK_50) begin
 end
 
 always@(*) begin
-    if(visible) begin
-		
-	end
 	if(InTriangle) begin
-			R <= 4'hf;
-			G <= 4'h0;
-			B <= 4'h0;
+		R <= 4'hf;
+		G <= 4'h0;
+		B <= 4'h0;
 	end
 	else begin
 		R <= 4'hf;
 		G <= 4'hf;
 		B <= 4'hf;
 	end
-
-
 end
 
 endmodule
