@@ -1,11 +1,11 @@
 module testeMemoria(
     input CLOCK_50,
-    output [7:0] LEDG,
-    output [7:0] LEDR,
-    output [17:0] SRAM_ADDR,
-    inout [15:0] SRAM_DQ,
-    output SRAM_WE_N,
-    output SRAM_OE_N,
+    output [7:0] LEDG,//leds
+    output [7:0] LEDR,//leds
+    output [17:0] SRAM_ADDR,//Endereço memoria onde vai ser gravado o SRAM_DQ
+    inout [15:0] SRAM_DQ,//Valor a ser passado para a memoria
+    output SRAM_WE_N,//Sinal para gravar na memoria (write)
+    output SRAM_OE_N,//Sinal para ler a memoria(read)
     output SRAM_UB_N,
     output SRAM_LB_N,
     output SRAM_CE_N 
@@ -13,7 +13,7 @@ module testeMemoria(
 
 wire [15:0] output_leds;
 
-assign LEDR[7:0] = output_leds[15:8];
+assign LEDR[7:0] = output_leds[7:0];
 assign LEDG[7:0] = output_leds[7:0];
 
 assign output_leds = SRAM_DQ;
@@ -45,16 +45,7 @@ always @(posedge CLOCK_50) begin
 		0: begin
 			state <= 2;
 			addr_reg <= 13;
-			data_reg <= 50;
-			we <= 0;
-			oe <= 1;
-			ub <= 0;
-			lb <= 0;
-		end
-		1: begin
-			state <= 2;
-			addr_reg <= 13;
-			data_reg <= 50;
+			data_reg <= 2;
 			we <= 0;
 			oe <= 1;
 			ub <= 0;
@@ -64,8 +55,8 @@ always @(posedge CLOCK_50) begin
 			state <= 2;
 			addr_reg <= 13;
 			data_reg <= 16'bzzzzzzzzzzzzzzzz;
-			we <= 1;
-			oe <= 0;
+			we <= 0;
+			oe <= 1;
 			ub <= 0;
 			lb <= 0;
 		end
