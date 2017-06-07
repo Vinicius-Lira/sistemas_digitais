@@ -18,11 +18,9 @@ module PointTriangle(
     reg [10:0] x;
     reg [10:0] y;
 
-    reg enable = 1;
+    reg enable;
 
     wire inTriangle;
-
-    PointInTriangle in(PointAx, PointAy, PointBx, PointBy, PointCx, PointCy, PointPx, PointPy, inTriangle);
 
     reg auxLeftX = 0;
     reg auxRigth = 0;
@@ -31,68 +29,201 @@ module PointTriangle(
     reg [21:0] PointX;
 	reg [8:0] PointTopY;
 
+    reg [17:0] addr_in;//endereço na memoria
+    wire [30:0] data_in;//dado entrada
+    wire [30:0] data;
+    wire [17:0] addr;
+    wire we = 0;
+    wire oe = 1;
+    wire ub = 0;
+    wire lb = 0;
+    wire ce = 0;
+    wire [7:0] ledg;
+    wire [7:0] ledr;
+
+    //Ativa e desativa o a captura das coordenadas do triangulo
+    reg auxMen = 1;
+
+    reg clk = 0;
+
+    reg grava;//Auxiliar para a gravação dos pontos na memoria quando quebra a linha horizontal
+    reg existPoint; //Se existir pontos na linha horizontal é igual 1
+
+
+    //PointInTriangle ponto(PointAx, PointAy, PointBx, PointBy, PointCx, PointCy, PointPx, PointPy, inTriangle);
+
+    PointInTriangle triangle(PointAx, PointAy, PointBx, PointBy, PointCx, PointCy, x, y, inTriangle);
+
+    //Grava na memoria
+    MemoriaRAM Men(clk, addr_in, data_in, addr, data, we, oe, ub, lb, ce, ledg, ledr);
+
+    assign data_in[10:0] = PointX[10:0];
+    assign data_in[21:11] = PointX[21:11];
+    assign data_in[30:22] = PointTopY[8:0];
+
     always @(*) begin
         while(enable) begin
-            if(inTriangle) begin
-                if(auxLeftX == 0) begin
-                    PointX[10:0] <= x;
-                    auxLeftX <= 1;
+            if(auxMen) begin
+                if(inTriangle) begin
+                    existPoint <= 1;
+                    if(auxLeftX == 0) begin
+                        PointX[10:0] <= x;
+                        auxLeftX <= 1;
+                    end
+                    else begin
+                        PointX[21:11] <= x;
+                    end
+
+                    if(auxTopY == 0) begin
+                        PointTopY[8:0] <= y;
+                        auxTopY <= 1;
+                    end
                 end
                 else begin
-                    PointX[21:11] <= x;
+                    existPoint <= 0;
                 end
 
-                if(auxTopY == 0) begin
-                    PointTopY[8:0] <= y;
-                    auxTopY <= 1;
-                end
-            end
-
-            if(x == 1505) begin
-                x <= 0;
-                auxLeftX <= 0;
-
-                if(y == 480) begin
-                    y <= 0;
-                    enable <= 0;
+                if(x == 1505) begin
+                    x <= 0;
+                    auxLeftX <= 0;
+                    //Quando x chegar em 1505 grava os pontos left e rigth do x do triangulo
+                    grava <= 1;
+                    if(y == 480) begin
+                        y <= 0;
+                        enable <= 0;
+                    end
+                    else begin
+                        y <= y + 1;
+                    end
                 end
                 else begin
-                    y <= y + 1;
+                    x <= x + 1;
+                    grava <= 0;
                 end
 
-            end
-            else begin
-                x <= x + 1;
+                //Fim auxMen
             end
         //Fim while
         end
     //Fim always
     end
 
+    always @(posedge CLOCK_50) begin
+        if(grava && existPoint) begin
+            auxMen <=0;
+            clk <= 1;
+            clk <= 0;
+            clk <= 1;
+            clk <= 0;
+            auxMen <= 1;
+        end
+    end
+
 endmodule
 
+
+module MemoriaRAM(
+    CLOCK_50,
+    ADDR_IN, //Entrada para o endereço memoria
+    DATA_IN, //Dado de entrada
+    ADDR,//Endereço memoria onde vai ser gravado o SRAM_DQ
+    DATA,//Valor a ser passado para a memoria
+    WE,//Write Enable(0)/ Read Enable(1)
+    OE,//Output Enable
+    UB,
+    LB,
+    CE,
+    LEDG,//leds
+    LEDR//leds
+);
+    //------------Declaração Portas-------------
+        //----------------Entradas------------------
+        input CLOCK_50;
+        input [17:0] ADDR_IN;
+        input [30:0] DATA_IN;
+        //------------Portas inout-----------------
+        inout [30:0] DATA;
+        //------------------Saidas------------------
+        output [17:0] ADDR;
+        output WE;
+        output OE;
+        output UB;
+        output LB;
+        output CE;
+        output [7:0] LEDG;//leds
+        output [7:0] LEDR;//leds
+
+    //-------------Variaveis internas-----------
+	wire [15:0] output_leds;
+
+    reg [3:0] state;
+
+    reg [15:0] data_reg;
+
+    reg we, oe;
+
+    //--------------Assign------------------------
+	assign LEDR[7:0] = output_leds[7:0];
+	assign LEDG[7:0] = output_leds[7:0];
+
+	assign output_leds = DATA;
+
+	assign CE = 0;
+
+	assign ADDR = ADDR_IN;
+
+	assign WE = we;
+	assign OE = oe;
+	assign UB = 0;
+	assign LB = 0;
+
+    //-----------------Always---------------------
+
+	always @(posedge CLOCK_50) begin
+
+		case (state)
+			0: begin
+				state <= 1;
+				data_reg <= DATA_IN;
+				we <= 0;
+				oe <= 1;
+			end
+			1: begin
+				state <= 2;
+				data_reg <= 16'bzzzzzzzzzzzzzzzz;
+				we <= 0;
+				oe <= 1;
+			end
+		endcase
+
+	end
+
+endmodule
+
+
+
 module sing(
-    input [11:0] PTX,
-    input [11:0] PTY,
+    input [10:0] PTX,
+    input [10:0] PTY,
 
-    input [11:0] P1X,
-    input [11:0] P1Y,
+    input [10:0] P1X,
+    input [10:0] P1Y,
 
-    input [11:0] P2X,
-    input [11:0] P2Y,
+    input [10:0] P2X,
+    input [10:0] P2Y,
 
     output sin
 );
 
-    wire signed [11:0] Sub1;
-    wire signed [11:0] Sub2;
-    wire signed [11:0] Sub3;
-    wire signed [11:0] Sub4;
+    wire signed [10:0] Sub1;
+    wire signed [10:0] Sub2;
+    wire signed [10:0] Sub3;
+    wire signed [10:0] Sub4;
 
-    wire signed [22:0] Sub5;
+    wire signed [21:0] Sub5;
 
-    wire signed [22:0] Mult1;
-    wire signed [22:0] Mult2;
+    wire signed [21:0] Mult1;
+    wire signed [21:0] Mult2;
 
 
     assign Sub1 = PTX - P2X;
@@ -110,17 +241,17 @@ module sing(
 endmodule
 
 module PointInTriangle(
-    input [11:0] P1X,
-    input [11:0] P1Y,
+    input [10:0] P1X,
+    input [10:0] P1Y,
 
-    input [11:0] P2X,
-    input [11:0] P2Y,
+    input [10:0] P2X,
+    input [10:0] P2Y,
 
-    input [11:0] P3X,
-    input [11:0] P3Y,
+    input [10:0] P3X,
+    input [10:0] P3Y,
 
-    input [11:0] PTX,
-    input [11:0] PTY,
+    input [10:0] PTX,
+    input [10:0] PTY,
 
     output inTriangle
 );
@@ -133,72 +264,5 @@ module PointInTriangle(
     sing S3(PTX, PTY, P3X, P3Y, P1X, P1Y, sin3);
 
     assign inTriangle = (sin1 == sin2 && sin2 == sin3) ? 1 : 0;
-
-endmodule
-
-module MemoriaRAM(
-    input CLOCK_50,
-    output [7:0] LEDG,//leds
-    output [7:0] LEDR,//leds
-    output [17:0] SRAM_ADDR,//Endereço memoria onde vai ser gravado o SRAM_DQ
-    inout [15:0] SRAM_DQ,//Valor a ser passado para a memoria
-    output SRAM_WE_N,//Sinal para gravar na memoria (write)
-    output SRAM_OE_N,//Sinal para ler a memoria(read)
-    output SRAM_UB_N,
-    output SRAM_LB_N,
-    output SRAM_CE_N
-);
-
-	wire [15:0] output_leds;
-
-	assign LEDR[7:0] = output_leds[7:0];
-	assign LEDG[7:0] = output_leds[7:0];
-
-	assign output_leds = SRAM_DQ;
-	
-	assign SRAM_CE_N = 0;
-
-	reg [3:0] state;
-
-
-	reg [17:0] addr_reg;
-	reg [15:0] data_reg;
-
-	assign SRAM_ADDR = addr_reg;
-	assign SRAM_DQ = data_reg;
-
-
-	reg we, oe, ub, lb; //, ce;
-
-	assign SRAM_WE_N = we;
-	assign SRAM_OE_N = oe;
-	assign SRAM_UB_N = ub;
-	assign SRAM_LB_N = lb;
-
-
-	always @(posedge CLOCK_50) begin
-
-		case (state)
-			0: begin
-				state <= 1;
-				addr_reg <= 13;
-				data_reg <= 2;
-				we <= 0;
-				oe <= 1;
-				ub <= 0;
-				lb <= 0;
-			end
-			2: begin
-				state <= 0;
-				addr_reg <= 13;
-				data_reg <= 16'bzzzzzzzzzzzzzzzz;
-				we <= 0;
-				oe <= 1;
-				ub <= 0;
-				lb <= 0;
-			end
-		endcase
-
-	end
 
 endmodule
