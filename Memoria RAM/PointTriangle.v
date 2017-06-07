@@ -1,8 +1,5 @@
-module PointTriangle(
+module MenTriangle(
     input CLOCK_50,
-
-    input [10:0] PointPx,
-    input [10:0] PointPy,
 
     input [10:0] PointAx,
     input [10:0] PointAy,
@@ -29,7 +26,7 @@ module PointTriangle(
     reg [21:0] PointX;
 	reg [8:0] PointTopY;
 
-    reg [17:0] addr_in;//endereço na memoria
+    wire [17:0] addr_in;//endereço na memoria
     wire [30:0] data_in;//dado entrada
     wire [30:0] data;
     wire [17:0] addr;
@@ -49,9 +46,10 @@ module PointTriangle(
     reg grava;//Auxiliar para a gravação dos pontos na memoria quando quebra a linha horizontal
     reg existPoint; //Se existir pontos na linha horizontal é igual 1
 
+    //Contador do endereço de memoria
+    reg [17:0] CountADDR = 15;
 
-    //PointInTriangle ponto(PointAx, PointAy, PointBx, PointBy, PointCx, PointCy, PointPx, PointPy, inTriangle);
-
+    //Verifica se x e y fazem parte do triangulo
     PointInTriangle triangle(PointAx, PointAy, PointBx, PointBy, PointCx, PointCy, x, y, inTriangle);
 
     //Grava na memoria
@@ -60,6 +58,7 @@ module PointTriangle(
     assign data_in[10:0] = PointX[10:0];
     assign data_in[21:11] = PointX[21:11];
     assign data_in[30:22] = PointTopY[8:0];
+    assign addr_in = CountADDR;
 
     always @(*) begin
         while(enable) begin
@@ -80,6 +79,7 @@ module PointTriangle(
                     end
                 end
                 else begin
+                    //Se não existir pontos do triangulo na linha não pode gravar
                     existPoint <= 0;
                 end
 
@@ -108,13 +108,14 @@ module PointTriangle(
     //Fim always
     end
 
-    always @(posedge CLOCK_50) begin
+    always @(grava) begin
         if(grava && existPoint) begin
             auxMen <=0;
             clk <= 1;
             clk <= 0;
             clk <= 1;
             clk <= 0;
+            CountADDR <= CountADDR + 1;
             auxMen <= 1;
         end
     end
@@ -264,5 +265,45 @@ module PointInTriangle(
     sing S3(PTX, PTY, P3X, P3Y, P1X, P1Y, sin3);
 
     assign inTriangle = (sin1 == sin2 && sin2 == sin3) ? 1 : 0;
+
+endmodule
+
+
+module teste;
+    reg clk = 0;
+
+    reg [10:0] PointAx;
+    reg [10:0] PointAy;
+
+    reg [10:0] PointBx;
+    reg [10:0] PointBy;
+
+    reg [10:0] PointCx;
+    reg [10:0] PointCy;
+
+    MenTriangle M(clk, PointAx, PointAy, PointBx, PointBy, PointCx, PointCy);
+
+    initial begin
+        $dumpvars(0, M);
+        #2
+        PointAx = 4;
+        PointAy = 10;
+
+        PointBx = 15;
+        PointBy = 10;
+
+        PointCx = 15;
+        PointCy = 4;
+        #2
+        #1 clk = 1;
+        #1 clk = 0;
+        #1 clk = 1;
+        #1 clk = 0;
+        #1 clk = 1;
+        #1 clk = 0;
+        #1 clk = 1;
+        #1 clk = 0;
+        $finish;
+    end
 
 endmodule

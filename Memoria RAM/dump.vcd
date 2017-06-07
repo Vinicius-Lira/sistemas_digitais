@@ -1,5 +1,5 @@
 $date
-	Tue Jun  6 14:24:29 2017
+	Wed Jun  7 14:53:21 2017
 $end
 $version
 	Icarus Verilog
@@ -8,54 +8,264 @@ $timescale
 	1s
 $end
 $scope module teste $end
-$scope module A $end
+$scope module M $end
 $var wire 1 ! CLOCK_50 $end
-$var wire 8 " LEDG [7:0] $end
-$var wire 8 # LEDR [7:0] $end
-$var wire 18 $ SRAM_ADDR [17:0] $end
-$var wire 1 % SRAM_CE_N $end
-$var wire 16 & SRAM_DQ [15:0] $end
-$var wire 1 ' SRAM_LB_N $end
-$var wire 1 ( SRAM_OE_N $end
-$var wire 1 ) SRAM_UB_N $end
-$var wire 1 * SRAM_WE_N $end
-$var wire 16 + output_leds [15:0] $end
-$var reg 18 , addr_reg [17:0] $end
-$var reg 16 - data_reg [15:0] $end
-$var reg 1 . lb $end
-$var reg 1 / oe $end
-$var reg 4 0 state [3:0] $end
-$var reg 1 1 ub $end
-$var reg 1 2 we $end
+$var wire 11 " PointAx [10:0] $end
+$var wire 11 # PointAy [10:0] $end
+$var wire 11 $ PointBx [10:0] $end
+$var wire 11 % PointBy [10:0] $end
+$var wire 11 & PointCx [10:0] $end
+$var wire 11 ' PointCy [10:0] $end
+$var wire 18 ( addr [17:0] $end
+$var wire 18 ) addr_in [17:0] $end
+$var wire 1 * ce $end
+$var wire 31 + data [30:0] $end
+$var wire 31 , data_in [30:0] $end
+$var wire 1 - inTriangle $end
+$var wire 1 . lb $end
+$var wire 8 / ledg [7:0] $end
+$var wire 8 0 ledr [7:0] $end
+$var wire 1 1 oe $end
+$var wire 1 2 ub $end
+$var wire 1 3 we $end
+$var reg 18 4 CountADDR [17:0] $end
+$var reg 9 5 PointTopY [8:0] $end
+$var reg 22 6 PointX [21:0] $end
+$var reg 1 7 auxLeftX $end
+$var reg 1 8 auxMen $end
+$var reg 1 9 auxRigth $end
+$var reg 1 : auxTopY $end
+$var reg 1 ; clk $end
+$var reg 1 < enable $end
+$var reg 1 = existPoint $end
+$var reg 1 > grava $end
+$var reg 11 ? x [10:0] $end
+$var reg 11 @ y [10:0] $end
+$scope module triangle $end
+$var wire 11 A P1X [10:0] $end
+$var wire 11 B P1Y [10:0] $end
+$var wire 11 C P2X [10:0] $end
+$var wire 11 D P2Y [10:0] $end
+$var wire 11 E P3X [10:0] $end
+$var wire 11 F P3Y [10:0] $end
+$var wire 11 G PTX [10:0] $end
+$var wire 11 H PTY [10:0] $end
+$var wire 1 - inTriangle $end
+$var wire 1 I sin1 $end
+$var wire 1 J sin2 $end
+$var wire 1 K sin3 $end
+$scope module S1 $end
+$var wire 22 L Mult1 [21:0] $end
+$var wire 22 M Mult2 [21:0] $end
+$var wire 11 N P1X [10:0] $end
+$var wire 11 O P1Y [10:0] $end
+$var wire 11 P P2X [10:0] $end
+$var wire 11 Q P2Y [10:0] $end
+$var wire 11 R PTX [10:0] $end
+$var wire 11 S PTY [10:0] $end
+$var wire 11 T Sub1 [10:0] $end
+$var wire 11 U Sub2 [10:0] $end
+$var wire 11 V Sub3 [10:0] $end
+$var wire 11 W Sub4 [10:0] $end
+$var wire 22 X Sub5 [21:0] $end
+$var wire 1 I sin $end
+$upscope $end
+$scope module S2 $end
+$var wire 22 Y Mult1 [21:0] $end
+$var wire 22 Z Mult2 [21:0] $end
+$var wire 11 [ P1X [10:0] $end
+$var wire 11 \ P1Y [10:0] $end
+$var wire 11 ] P2X [10:0] $end
+$var wire 11 ^ P2Y [10:0] $end
+$var wire 11 _ PTX [10:0] $end
+$var wire 11 ` PTY [10:0] $end
+$var wire 11 a Sub1 [10:0] $end
+$var wire 11 b Sub2 [10:0] $end
+$var wire 11 c Sub3 [10:0] $end
+$var wire 11 d Sub4 [10:0] $end
+$var wire 22 e Sub5 [21:0] $end
+$var wire 1 J sin $end
+$upscope $end
+$scope module S3 $end
+$var wire 22 f Mult1 [21:0] $end
+$var wire 22 g Mult2 [21:0] $end
+$var wire 11 h P1X [10:0] $end
+$var wire 11 i P1Y [10:0] $end
+$var wire 11 j P2X [10:0] $end
+$var wire 11 k P2Y [10:0] $end
+$var wire 11 l PTX [10:0] $end
+$var wire 11 m PTY [10:0] $end
+$var wire 11 n Sub1 [10:0] $end
+$var wire 11 o Sub2 [10:0] $end
+$var wire 11 p Sub3 [10:0] $end
+$var wire 11 q Sub4 [10:0] $end
+$var wire 22 r Sub5 [21:0] $end
+$var wire 1 K sin $end
+$upscope $end
+$upscope $end
+$scope module Men $end
+$var wire 18 s ADDR [17:0] $end
+$var wire 18 t ADDR_IN [17:0] $end
+$var wire 1 * CE $end
+$var wire 1 u CLOCK_50 $end
+$var wire 31 v DATA [30:0] $end
+$var wire 31 w DATA_IN [30:0] $end
+$var wire 1 . LB $end
+$var wire 8 x LEDG [7:0] $end
+$var wire 8 y LEDR [7:0] $end
+$var wire 1 1 OE $end
+$var wire 1 2 UB $end
+$var wire 1 3 WE $end
+$var wire 16 z output_leds [15:0] $end
+$var reg 16 { data_reg [15:0] $end
+$var reg 1 | oe $end
+$var reg 4 } state [3:0] $end
+$var reg 1 ~ we $end
+$upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-x2
+x~
+bx }
+x|
+bx {
+bz z
+bz y
+bz x
+bx w
+bz v
+0u
+b1111 t
+b1111 s
+bx r
+bx q
+bx p
+bx o
+bx n
+bx m
+bx l
+bx k
+bx j
+bx i
+bx h
+bx g
+bx f
+bx e
+bx d
+bx c
+bx b
+bx a
+bx `
+bx _
+bx ^
+bx ]
+bx \
+bx [
+bx Z
+bx Y
+bx X
+bx W
+bx V
+bx U
+bx T
+bx S
+bx R
+bx Q
+bx P
+bx O
+bx N
+bx M
+bx L
+xK
+xJ
+xI
+bx H
+bx G
+bx F
+bx E
+bx D
+bx C
+bx B
+bx A
+bx @
+bx ?
+x>
+x=
+x<
+0;
+0:
+09
+18
+07
+bx 6
+bx 5
+b1111 4
+x3
+02
 x1
-bx 0
-x/
-x.
-bx -
+bz 0
+bz /
+0.
+x-
 bx ,
-bx +
-x*
-x)
-x(
-x'
+bz +
+0*
+b1111 )
+b1111 (
+bx '
 bx &
-0%
+bx %
 bx $
 bx #
 bx "
-x!
-$end
-#1
 0!
-#3
-1!
+$end
+#2
+b100 '
+b100 F
+b100 ^
+b100 i
+b110 b
+b11111111010 o
+b1111 &
+b1111 E
+b1111 ]
+b1111 h
+b0 c
+b1011 p
+b1010 %
+b1010 D
+b1010 Q
+b1010 \
+b0 U
+b1111 $
+b1111 C
+b1111 P
+b1111 [
+b11111110101 V
+b1010 #
+b1010 B
+b1010 O
+b1010 k
+b100 "
+b100 A
+b100 N
+b100 j
 #5
+1!
+#6
 0!
 #7
 1!
+#8
+0!
+#9
+1!
+#10
+0!
+#11
+1!
+#12
+0!
