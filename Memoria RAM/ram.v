@@ -8,7 +8,7 @@ module testeMemoria(
     output SRAM_OE_N,//Sinal para ler a memoria(read)
     output SRAM_UB_N,
     output SRAM_LB_N,
-    output SRAM_CE_N 
+    output SRAM_CE_N
 );
 
 wire [15:0] output_leds;
@@ -64,4 +64,41 @@ always @(posedge CLOCK_50) begin
 
 end
 
+endmodule
+
+module teste;
+    reg clk;
+    wire [7:0] LEDG;
+    wire [7:0] LEDR;
+    wire [17:0] SRAM_ADDR;
+    wire [15:0] SRAM_DQ;
+    wire SRAM_WE_N;
+    wire SRAM_OE_N;
+    wire SRAM_UB_N;
+    wire SRAM_LB_N;
+    wire SRAM_CE_N;
+
+    reg [15:0] data;
+    reg [17:0] addr;
+
+    assign SRAM_DQ = data;
+    assign SRAM_ADDR = addr;
+
+    testeMemoria A(clk, LEDG, LEDR, SRAM_ADDR, SRAM_DQ, SRAM_WE_N, SRAM_OE_N, SRAM_UB_N, SRAM_LB_N, SRAM_CE_N);
+
+    initial begin
+        $dumpvars(0, A);
+        #1
+        clk <= 0;
+        #2
+        clk <= 1;
+        addr <= 13;
+        data <= 50;
+        #2
+        clk <= 0;
+        #2
+        clk <= 1;
+        addr <= 13;
+        data <= 0;
+    end
 endmodule

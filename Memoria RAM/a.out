@@ -1,0 +1,266 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x1e902d0 .scope module, "PointTriangle" "PointTriangle" 2 1;
+ .timescale 0 0;
+v0x1ec9920_0 .net "CLOCK_50", 0 0, C4<z>; 0 drivers
+v0x1ec99e0_0 .net "PointAx", 11 0, C4<zzzzzzzzzzzz>; 0 drivers
+v0x1ec9a60_0 .net "PointAy", 11 0, C4<zzzzzzzzzzzz>; 0 drivers
+v0x1ec9ae0_0 .net "PointBx", 11 0, C4<zzzzzzzzzzzz>; 0 drivers
+v0x1ec9b60_0 .net "PointBy", 11 0, C4<zzzzzzzzzzzz>; 0 drivers
+v0x1ec9be0_0 .net "PointCx", 11 0, C4<zzzzzzzzzzzz>; 0 drivers
+v0x1ec9c60_0 .net "PointCy", 11 0, C4<zzzzzzzzzzzz>; 0 drivers
+v0x1ec9ce0_0 .var "PointMen", 31 0;
+v0x1ec9d60_0 .net "PointPx", 11 0, C4<zzzzzzzzzzzz>; 0 drivers
+v0x1ec9e70_0 .net "PointPy", 11 0, C4<zzzzzzzzzzzz>; 0 drivers
+v0x1ec9f80_0 .var "auxLeftX", 0 0;
+v0x1eca020_0 .var "auxRigth", 0 0;
+v0x1eca0c0_0 .var "auxTopY", 0 0;
+v0x1eca160_0 .var "enable", 0 0;
+v0x1eca280_0 .net "inTriangle", 0 0, L_0x1ecd540; 1 drivers
+v0x1eca300_0 .var "x", 11 0;
+v0x1eca1e0_0 .var "y", 11 0;
+E_0x1e90110/0 .event edge, v0x1ec9670_0, v0x1ec9f80_0, v0x1eca300_0, v0x1eca0c0_0;
+E_0x1e90110/1 .event edge, v0x1eca1e0_0, v0x1eca160_0;
+E_0x1e90110 .event/or E_0x1e90110/0, E_0x1e90110/1;
+S_0x1e8fe90 .scope module, "in" "PointInTriangle" 2 25, 2 111, S_0x1e902d0;
+ .timescale 0 0;
+L_0x1ec6370 .functor XNOR 1, L_0x1ecb0f0, L_0x1ecc100, C4<0>, C4<0>;
+L_0x1ecd2c0 .functor XNOR 1, L_0x1ecc100, L_0x1ecd060, C4<0>, C4<0>;
+L_0x1ecd3b0 .functor AND 1, L_0x1ec6370, L_0x1ecd2c0, C4<1>, C4<1>;
+v0x1ec8d70_0 .alias "P1X", 11 0, v0x1ec99e0_0;
+v0x1ec8e10_0 .alias "P1Y", 11 0, v0x1ec9a60_0;
+v0x1ec8ee0_0 .alias "P2X", 11 0, v0x1ec9ae0_0;
+v0x1ec8fb0_0 .alias "P2Y", 11 0, v0x1ec9b60_0;
+v0x1ec9080_0 .alias "P3X", 11 0, v0x1ec9be0_0;
+v0x1ec9150_0 .alias "P3Y", 11 0, v0x1ec9c60_0;
+v0x1ec9220_0 .alias "PTX", 11 0, v0x1ec9d60_0;
+v0x1ec92a0_0 .alias "PTY", 11 0, v0x1ec9e70_0;
+v0x1ec9370_0 .net *"_s0", 0 0, L_0x1ec6370; 1 drivers
+v0x1ec93f0_0 .net *"_s2", 0 0, L_0x1ecd2c0; 1 drivers
+v0x1ec9490_0 .net *"_s4", 0 0, L_0x1ecd3b0; 1 drivers
+v0x1ec9530_0 .net/s *"_s6", 0 0, C4<1>; 1 drivers
+v0x1ec95d0_0 .net/s *"_s8", 0 0, C4<0>; 1 drivers
+v0x1ec9670_0 .alias "inTriangle", 0 0, v0x1eca280_0;
+v0x1ec9790_0 .net "sin1", 0 0, L_0x1ecb0f0; 1 drivers
+v0x1ec9810_0 .net "sin2", 0 0, L_0x1ecc100; 1 drivers
+v0x1ec96f0_0 .net "sin3", 0 0, L_0x1ecd060; 1 drivers
+L_0x1ecd540 .functor MUXZ 1, C4<0>, C4<1>, L_0x1ecd3b0, C4<>;
+S_0x1ec7d20 .scope module, "S1" "sing" 2 130, 2 73, S_0x1e8fe90;
+ .timescale 0 0;
+v0x1ec7e10_0 .net/s "Mult1", 22 0, L_0x1ecaa30; 1 drivers
+v0x1ec7ed0_0 .net/s "Mult2", 22 0, L_0x1ecac10; 1 drivers
+v0x1ec7f70_0 .alias "P1X", 11 0, v0x1ec99e0_0;
+v0x1ec8020_0 .alias "P1Y", 11 0, v0x1ec9a60_0;
+v0x1ec8100_0 .alias "P2X", 11 0, v0x1ec9ae0_0;
+v0x1ec81b0_0 .alias "P2Y", 11 0, v0x1ec9b60_0;
+v0x1ec8230_0 .alias "PTX", 11 0, v0x1ec9d60_0;
+v0x1ec82b0_0 .alias "PTY", 11 0, v0x1ec9e70_0;
+v0x1ec83d0_0 .net/s "Sub1", 11 0, L_0x1eca430; 1 drivers
+v0x1ec8450_0 .net/s "Sub2", 11 0, L_0x1eca560; 1 drivers
+v0x1ec84d0_0 .net/s "Sub3", 11 0, L_0x1eca720; 1 drivers
+v0x1ec8550_0 .net/s "Sub4", 11 0, L_0x1eca850; 1 drivers
+v0x1ec85d0_0 .net/s "Sub5", 22 0, L_0x1ecad50; 1 drivers
+v0x1ec8650_0 .net/s *"_s10", 22 0, L_0x1eca990; 1 drivers
+v0x1ec8770_0 .net/s *"_s14", 22 0, L_0x1ecaad0; 1 drivers
+v0x1ec8810_0 .net/s *"_s16", 22 0, L_0x1ecab70; 1 drivers
+v0x1ec86d0_0 .net/s *"_s22", 23 0, L_0x1ecae40; 1 drivers
+v0x1ec8960_0 .net/s *"_s24", 23 0, C4<000000000000000000000000>; 1 drivers
+v0x1ec8a80_0 .net *"_s26", 0 0, L_0x1ecaf30; 1 drivers
+v0x1ec8b00_0 .net/s *"_s28", 0 0, C4<1>; 1 drivers
+v0x1ec89e0_0 .net/s *"_s30", 0 0, C4<0>; 1 drivers
+v0x1ec8c30_0 .net/s *"_s8", 22 0, L_0x1eca8f0; 1 drivers
+v0x1ec8b80_0 .alias "sin", 0 0, v0x1ec9790_0;
+L_0x1eca430 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1eca560 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1eca720 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1eca850 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1eca8f0 .extend/s 23, L_0x1eca430;
+L_0x1eca990 .extend/s 23, L_0x1eca560;
+L_0x1ecaa30 .arith/mult 23, L_0x1eca8f0, L_0x1eca990;
+L_0x1ecaad0 .extend/s 23, L_0x1eca720;
+L_0x1ecab70 .extend/s 23, L_0x1eca850;
+L_0x1ecac10 .arith/mult 23, L_0x1ecaad0, L_0x1ecab70;
+L_0x1ecad50 .arith/sub 23, L_0x1ecaa30, L_0x1ecac10;
+L_0x1ecae40 .extend/s 24, L_0x1ecad50;
+L_0x1ecaf30 .cmp/ge.s 24, L_0x1ecae40, C4<000000000000000000000000>;
+L_0x1ecb0f0 .functor MUXZ 1, C4<0>, C4<1>, L_0x1ecaf30, C4<>;
+S_0x1ec6d60 .scope module, "S2" "sing" 2 131, 2 73, S_0x1e8fe90;
+ .timescale 0 0;
+v0x1ec6e50_0 .net/s "Mult1", 22 0, L_0x1ecb870; 1 drivers
+v0x1ec6f10_0 .net/s "Mult2", 22 0, L_0x1ecbbe0; 1 drivers
+v0x1ec6fb0_0 .alias "P1X", 11 0, v0x1ec9ae0_0;
+v0x1ec7050_0 .alias "P1Y", 11 0, v0x1ec9b60_0;
+v0x1ec70d0_0 .alias "P2X", 11 0, v0x1ec9be0_0;
+v0x1ec7180_0 .alias "P2Y", 11 0, v0x1ec9c60_0;
+v0x1ec7200_0 .alias "PTX", 11 0, v0x1ec9d60_0;
+v0x1ec72b0_0 .alias "PTY", 11 0, v0x1ec9e70_0;
+v0x1ec7360_0 .net/s "Sub1", 11 0, L_0x1ecb350; 1 drivers
+v0x1ec73e0_0 .net/s "Sub2", 11 0, L_0x1ecb480; 1 drivers
+v0x1ec7460_0 .net/s "Sub3", 11 0, L_0x1ecb5b0; 1 drivers
+v0x1ec74e0_0 .net/s "Sub4", 11 0, L_0x1ecb650; 1 drivers
+v0x1ec7560_0 .net/s "Sub5", 22 0, L_0x1ecbd20; 1 drivers
+v0x1ec7600_0 .net/s *"_s10", 22 0, L_0x1ecb790; 1 drivers
+v0x1ec7720_0 .net/s *"_s14", 22 0, L_0x1ecb9b0; 1 drivers
+v0x1ec77c0_0 .net/s *"_s16", 22 0, L_0x1ecbaf0; 1 drivers
+v0x1ec7680_0 .net/s *"_s22", 23 0, L_0x1ecbe10; 1 drivers
+v0x1ec7910_0 .net/s *"_s24", 23 0, C4<000000000000000000000000>; 1 drivers
+v0x1ec7a30_0 .net *"_s26", 0 0, L_0x1ecbf00; 1 drivers
+v0x1ec7ab0_0 .net/s *"_s28", 0 0, C4<1>; 1 drivers
+v0x1ec7990_0 .net/s *"_s30", 0 0, C4<0>; 1 drivers
+v0x1ec7be0_0 .net/s *"_s8", 22 0, L_0x1ecb6f0; 1 drivers
+v0x1ec7b30_0 .alias "sin", 0 0, v0x1ec9810_0;
+L_0x1ecb350 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1ecb480 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1ecb5b0 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1ecb650 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1ecb6f0 .extend/s 23, L_0x1ecb350;
+L_0x1ecb790 .extend/s 23, L_0x1ecb480;
+L_0x1ecb870 .arith/mult 23, L_0x1ecb6f0, L_0x1ecb790;
+L_0x1ecb9b0 .extend/s 23, L_0x1ecb5b0;
+L_0x1ecbaf0 .extend/s 23, L_0x1ecb650;
+L_0x1ecbbe0 .arith/mult 23, L_0x1ecb9b0, L_0x1ecbaf0;
+L_0x1ecbd20 .arith/sub 23, L_0x1ecb870, L_0x1ecbbe0;
+L_0x1ecbe10 .extend/s 24, L_0x1ecbd20;
+L_0x1ecbf00 .cmp/ge.s 24, L_0x1ecbe10, C4<000000000000000000000000>;
+L_0x1ecc100 .functor MUXZ 1, C4<0>, C4<1>, L_0x1ecbf00, C4<>;
+S_0x1e8fa20 .scope module, "S3" "sing" 2 132, 2 73, S_0x1e8fe90;
+ .timescale 0 0;
+v0x1ea3b60_0 .net/s "Mult1", 22 0, L_0x1ecc800; 1 drivers
+v0x1ec5d50_0 .net/s "Mult2", 22 0, L_0x1eccb70; 1 drivers
+v0x1ec5df0_0 .alias "P1X", 11 0, v0x1ec9be0_0;
+v0x1ec5e90_0 .alias "P1Y", 11 0, v0x1ec9c60_0;
+v0x1ec5f40_0 .alias "P2X", 11 0, v0x1ec99e0_0;
+v0x1ec5fe0_0 .alias "P2Y", 11 0, v0x1ec9a60_0;
+v0x1ec60c0_0 .alias "PTX", 11 0, v0x1ec9d60_0;
+v0x1ec6160_0 .alias "PTY", 11 0, v0x1ec9e70_0;
+v0x1ec6250_0 .net/s "Sub1", 11 0, L_0x1ecc360; 1 drivers
+v0x1ec62f0_0 .net/s "Sub2", 11 0, L_0x1ecc400; 1 drivers
+v0x1ec63f0_0 .net/s "Sub3", 11 0, L_0x1ecc4a0; 1 drivers
+v0x1ec6490_0 .net/s "Sub4", 11 0, L_0x1ecc540; 1 drivers
+v0x1ec65a0_0 .net/s "Sub5", 22 0, L_0x1ecccb0; 1 drivers
+v0x1ec6640_0 .net/s *"_s10", 22 0, L_0x1ecc6d0; 1 drivers
+v0x1ec6760_0 .net/s *"_s14", 22 0, L_0x1ecc940; 1 drivers
+v0x1ec6800_0 .net/s *"_s16", 22 0, L_0x1ecca80; 1 drivers
+v0x1ec66c0_0 .net/s *"_s22", 23 0, L_0x1eccda0; 1 drivers
+v0x1ec6950_0 .net/s *"_s24", 23 0, C4<000000000000000000000000>; 1 drivers
+v0x1ec6a70_0 .net *"_s26", 0 0, L_0x1ecce90; 1 drivers
+v0x1ec6af0_0 .net/s *"_s28", 0 0, C4<1>; 1 drivers
+v0x1ec69d0_0 .net/s *"_s30", 0 0, C4<0>; 1 drivers
+v0x1ec6c20_0 .net/s *"_s8", 22 0, L_0x1ecc5e0; 1 drivers
+v0x1ec6b70_0 .alias "sin", 0 0, v0x1ec96f0_0;
+L_0x1ecc360 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1ecc400 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1ecc4a0 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1ecc540 .arith/sub 12, C4<zzzzzzzzzzzz>, C4<zzzzzzzzzzzz>;
+L_0x1ecc5e0 .extend/s 23, L_0x1ecc360;
+L_0x1ecc6d0 .extend/s 23, L_0x1ecc400;
+L_0x1ecc800 .arith/mult 23, L_0x1ecc5e0, L_0x1ecc6d0;
+L_0x1ecc940 .extend/s 23, L_0x1ecc4a0;
+L_0x1ecca80 .extend/s 23, L_0x1ecc540;
+L_0x1eccb70 .arith/mult 23, L_0x1ecc940, L_0x1ecca80;
+L_0x1ecccb0 .arith/sub 23, L_0x1ecc800, L_0x1eccb70;
+L_0x1eccda0 .extend/s 24, L_0x1ecccb0;
+L_0x1ecce90 .cmp/ge.s 24, L_0x1eccda0, C4<000000000000000000000000>;
+L_0x1ecd060 .functor MUXZ 1, C4<0>, C4<1>, L_0x1ecce90, C4<>;
+    .scope S_0x1e902d0;
+T_0 ;
+    %set/v v0x1eca160_0, 1, 1;
+    %end;
+    .thread T_0;
+    .scope S_0x1e902d0;
+T_1 ;
+    %set/v v0x1ec9f80_0, 0, 1;
+    %end;
+    .thread T_1;
+    .scope S_0x1e902d0;
+T_2 ;
+    %set/v v0x1eca020_0, 0, 1;
+    %end;
+    .thread T_2;
+    .scope S_0x1e902d0;
+T_3 ;
+    %set/v v0x1eca0c0_0, 0, 1;
+    %end;
+    .thread T_3;
+    .scope S_0x1e902d0;
+T_4 ;
+    %wait E_0x1e90110;
+T_4.0 ;
+    %load/v 8, v0x1eca160_0, 1;
+    %jmp/0xz T_4.1, 8;
+    %load/v 8, v0x1eca280_0, 1;
+    %jmp/0xz  T_4.2, 8;
+    %load/v 8, v0x1ec9f80_0, 1;
+    %mov 9, 0, 1;
+    %cmpi/u 8, 0, 2;
+    %jmp/0xz  T_4.4, 4;
+    %load/v 8, v0x1eca300_0, 12;
+    %ix/load 0, 12, 0;
+    %ix/load 1, 0, 0;
+    %assign/v0/x1 v0x1ec9ce0_0, 0, 8;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x1ec9f80_0, 0, 1;
+    %jmp T_4.5;
+T_4.4 ;
+    %load/v 8, v0x1eca300_0, 12;
+    %ix/load 0, 10, 0;
+    %ix/load 1, 12, 0;
+    %assign/v0/x1 v0x1ec9ce0_0, 0, 8;
+T_4.5 ;
+    %load/v 8, v0x1eca0c0_0, 1;
+    %mov 9, 0, 1;
+    %cmpi/u 8, 0, 2;
+    %jmp/0xz  T_4.6, 4;
+    %load/v 8, v0x1eca1e0_0, 12;
+    %ix/load 0, 10, 0;
+    %ix/load 1, 22, 0;
+    %assign/v0/x1 v0x1ec9ce0_0, 0, 8;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x1eca0c0_0, 0, 1;
+T_4.6 ;
+T_4.2 ;
+    %load/v 8, v0x1eca300_0, 12;
+    %mov 20, 0, 1;
+    %cmpi/u 8, 1505, 13;
+    %jmp/0xz  T_4.8, 4;
+    %ix/load 0, 12, 0;
+    %assign/v0 v0x1eca300_0, 0, 0;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x1ec9f80_0, 0, 0;
+    %load/v 8, v0x1eca1e0_0, 12;
+    %mov 20, 0, 1;
+    %cmpi/u 8, 480, 13;
+    %jmp/0xz  T_4.10, 4;
+    %ix/load 0, 12, 0;
+    %assign/v0 v0x1eca1e0_0, 0, 0;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x1eca160_0, 0, 0;
+    %jmp T_4.11;
+T_4.10 ;
+    %load/v 8, v0x1eca1e0_0, 12;
+    %mov 20, 0, 20;
+    %addi 8, 1, 32;
+    %ix/load 0, 12, 0;
+    %assign/v0 v0x1eca1e0_0, 0, 8;
+T_4.11 ;
+    %jmp T_4.9;
+T_4.8 ;
+    %load/v 8, v0x1eca300_0, 12;
+    %mov 20, 0, 20;
+    %addi 8, 1, 32;
+    %ix/load 0, 12, 0;
+    %assign/v0 v0x1eca300_0, 0, 8;
+T_4.9 ;
+    %jmp T_4.0;
+T_4.1 ;
+    %jmp T_4;
+    .thread T_4, $push;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "PointTriangle.v";

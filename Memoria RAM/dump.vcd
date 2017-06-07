@@ -1,0 +1,61 @@
+$date
+	Tue Jun  6 14:24:29 2017
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module teste $end
+$scope module A $end
+$var wire 1 ! CLOCK_50 $end
+$var wire 8 " LEDG [7:0] $end
+$var wire 8 # LEDR [7:0] $end
+$var wire 18 $ SRAM_ADDR [17:0] $end
+$var wire 1 % SRAM_CE_N $end
+$var wire 16 & SRAM_DQ [15:0] $end
+$var wire 1 ' SRAM_LB_N $end
+$var wire 1 ( SRAM_OE_N $end
+$var wire 1 ) SRAM_UB_N $end
+$var wire 1 * SRAM_WE_N $end
+$var wire 16 + output_leds [15:0] $end
+$var reg 18 , addr_reg [17:0] $end
+$var reg 16 - data_reg [15:0] $end
+$var reg 1 . lb $end
+$var reg 1 / oe $end
+$var reg 4 0 state [3:0] $end
+$var reg 1 1 ub $end
+$var reg 1 2 we $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+x2
+x1
+bx 0
+x/
+x.
+bx -
+bx ,
+bx +
+x*
+x)
+x(
+x'
+bx &
+0%
+bx $
+bx #
+bx "
+x!
+$end
+#1
+0!
+#3
+1!
+#5
+0!
+#7
+1!
