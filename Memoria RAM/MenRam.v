@@ -1,15 +1,15 @@
 module MenRam(
     input CLOCK_50,
-    input BTN_DESENHA,
+    input [2:0] KEY,
     output [3:0] VGA_R,
 	output [3:0] VGA_G,
 	output [3:0] VGA_B,
 	output VGA_HS,
 	output VGA_VS,
-    output [7:0] LEDG,//leds
+    output reg [7:0] LEDG,//leds
     output [7:0] LEDR,//leds
     output [17:0] SRAM_ADDR,//Endereço memoria onde vai ser gravado o SRAM_DQ
-    inout [21:0] SRAM_DQ,//Valor a ser passado para a memoria
+    inout [15:0] SRAM_DQ,//Valor a ser passado para a memoria
     output SRAM_WE_N,//Sinal para write(0)/read(1)
     output SRAM_OE_N,//Sinal Output enable
     output SRAM_UB_N,
@@ -27,21 +27,19 @@ module MenRam(
         reg [17:0] addr_reg;
         reg [23:0] data_reg;
 
-        reg we;
-
-        //Reg que conta o numero de pontos no triangulo
-        reg [17:0] count = 15;
+        reg we;		  
 
     //---------------ASSIGN's RAM------------------
         assign output_leds[7:0] = SRAM_DQ[7:0];
 
-        assign SRAM_ADDR = addr_reg;
+        //assign SRAM_ADDR = addr_reg;
+		  assign SRAM_ADDR = {x,y};
         assign SRAM_DQ = data_reg;
 
         assign LEDR[7:0] = output_leds[7:0];
 
         assign SRAM_WE_N = we;
-        assign SRAM_OE_N = 1;
+        assign SRAM_OE_N = ~we;
 
         assign SRAM_UB_N = 0;
         assign SRAM_LB_N = 0;
@@ -54,17 +52,20 @@ module MenRam(
         wire [11:0] x;
         wire [11:0] y;
 
-        wire [11:0] P1X = 200;
-        wire [11:0] P1Y = 100;
+        wire [11:0] P1X = 100;
+        wire [11:0] P1Y = 250;
 
         wire [11:0] P2X = 500;
-        wire [11:0] P2Y = 300;
+        wire [11:0] P2Y = 250;
 
         wire [11:0] P3X = 500;
         wire [11:0] P3Y = 100;
 
         wire [11:0] PTX;
         wire [11:0] PTY;
+		  
+		  wire [11:0] pt_x = 470;
+		  wire [11:0] pt_y = 185;
 
         wire InTriangle;
 
@@ -83,7 +84,7 @@ module MenRam(
     //-----------------------------------------
 
     //-------------ASSIGN's VGA-----------------
-        assign LEDG = 4'b1111;
+        //assign LEDG = 4'b1111;
 
         assign VGA_HS = ~(h_count < 190);
         assign VGA_VS = ~(v_count < 2);
@@ -95,39 +96,18 @@ module MenRam(
         assign PTY = y;
 
         assign visible = (v_count > 35) & (v_count < 515) & (h_count > 285) & (h_count < 1505);
-
-        assign VGA_R = visible ? (Triangle ? R : 4'hf) : 4'hf;
-        assign VGA_G = visible ? (Triangle ? G : 4'hf) : 4'hf;
-        assign VGA_B = visible ? (Triangle ? B : 4'hf) : 4'hf;
+											
+       /* assign VGA_R = visible ? (Triangle ? R : 4'hf) : 4'h0;
+        assign VGA_G = visible ? (Triangle ? G : 4'hf) : 4'h0;
+        assign VGA_B = visible ? (Triangle ? B : 4'hf) : 4'h0;*/
+		   assign VGA_R = visible ? SRAM_DQ[3:0] : 4'h0;
+        assign VGA_G = visible ? SRAM_DQ[7:4] : 4'h0;
+        assign VGA_B = visible ? SRAM_DQ[11:8] : 4'h0;
 
 //-----------------FIM VGA----------------------
 
-//----------------REG's Ponto no Triangulo------
-        reg PointTriagle;
-//----------------------------------------------
-
-//----------------WIRE's Ponto no Triangulo------
-        reg [11:0] ptx = 430;
-        reg [11:0] pty = 175;
-
-//----------------------------------------------
-
 //----------Outros REG's e WIRE's, ASSIGN---------------
     reg auxDesenha;
-
-    reg auxTela;
-
-    reg [17:0] countAux = 15;
-
-    wire [11:0] readX;
-    wire [11:0] readY;
-
-    assign readX = SRAM_DQ[11:0];
-    assign readY = SRAM_DQ[23:12];
-
-    wire Triangle;
-
-    assign Triangle = (readX == x) & (readY == y);
 //----------------------------------------------
 
 
@@ -136,7 +116,7 @@ module MenRam(
     PointInTriangle pt( P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTY, InTriangle);
 
     //Calcula para achar se o ponto está no triangulo
-    PointInTriangle PointPT( P1X, P1Y, P2X, P2Y, P3X, P3Y, ptx, pty, PointTriangle);
+    PointInTriangle PointPT( P1X, P1Y, P2X, P2Y, P3X, P3Y, pt_x, pt_y, PointTriangle);
 
 //---------------------------------------
 
@@ -161,43 +141,37 @@ module MenRam(
     always @(posedge CLOCK_50) begin
 
         if(auxDesenha) begin
-            addr_reg <= countAux;
-            data_reg = 22'bzzzzzzzzzzzzzzzzzzzzzz;
-            we <= 1;
-            if(countAux <= count) begin
-                countAux <= countAux + 1;
-            end
+				//Lê a memoria
+				data_reg <= 12'hzzz;
+				we <= 1;
         end
-        else begin
-            if(InTriangle) begin
-                addr_reg <= count;
-                data_reg[11:0] <= x;
-                data_reg[23:12] <= y;
-                we <= 0;
-                count <= count + 1;
-            end
-        end
-
+		  
+		  if(~auxDesenha) begin
+				//Escreve na memoria
+				data_reg <= PointTriangle ? 12'hfff : 12'h000;
+				if(PointTriangle) begin
+					data_reg <= PointTriangle ? 12'hfff : 12'h000;
+				end
+				else begin
+					data_reg <= InTriangle ? 12'h00f : 12'hff0;
+				end
+				we <= 0;
+		  end
     end
 
-    always @(*) begin
-        if(BTN_DESENHA & auxTela) begin
-            auxDesenha <= 1;
-        end
-        else begin
+    always @(KEY) begin
+			//Bot~ao para desenhar o triangulo na tela
+        if(~KEY[0]) begin
             auxDesenha <= 0;
+				LEDG <= 4'ha;	
+        end
+		  //Bot~ao para apagar o triangulo da tela
+		  if(~KEY[1]) begin
+				auxDesenha <= 1;
+				LEDG <= 4'b1100;
         end
     end
 //--------------------------------------------------
-
-    always @ (*) begin
-        if((x == 1220) & (y == 480)) begin
-            auxTela <= 1;
-        end
-        else begin
-            auxTela <= 0;
-        end
-    end
 
 endmodule
 
