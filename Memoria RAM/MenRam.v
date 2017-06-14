@@ -1,5 +1,6 @@
 module MenRam(
     input CLOCK_50,
+    input BTN_DESENHA,
     output [3:0] VGA_R,
 	output [3:0] VGA_G,
 	output [3:0] VGA_B,
@@ -8,7 +9,7 @@ module MenRam(
     output [7:0] LEDG,//leds
     output [7:0] LEDR,//leds
     output [17:0] SRAM_ADDR,//Endereço memoria onde vai ser gravado o SRAM_DQ
-    inout [19:0] SRAM_DQ,//Valor a ser passado para a memoria
+    inout [21:0] SRAM_DQ,//Valor a ser passado para a memoria
     output SRAM_WE_N,//Sinal para write(0)/read(1)
     output SRAM_OE_N,//Sinal Output enable
     output SRAM_UB_N,
@@ -24,14 +25,12 @@ module MenRam(
         reg [3:0] state;
 
         reg [17:0] addr_reg;
-        reg [19:0] data_reg;
+        reg [23:0] data_reg;
 
         reg we;
 
         //Reg que conta o numero de pontos no triangulo
-        reg [30:0] count = 0;
-
-        reg [30:0] countRead;
+        reg [17:0] count = 15;
 
     //---------------ASSIGN's RAM------------------
         assign output_leds[7:0] = SRAM_DQ[7:0];
@@ -71,7 +70,6 @@ module MenRam(
 
         wire visible;
 
-        wire point;
     //------------------------------------------
 
     //-----------------REG's VGA-------------------
@@ -82,9 +80,6 @@ module MenRam(
         reg [3:0] G = 4'h0;
         reg [3:0] B = 4'h0;
 
-        reg read = 1'b0;
-
-        reg auxAddr = 0;
     //-----------------------------------------
 
     //-------------ASSIGN's VGA-----------------
@@ -101,11 +96,9 @@ module MenRam(
 
         assign visible = (v_count > 35) & (v_count < 515) & (h_count > 285) & (h_count < 1505);
 
-        assign point = (data_reg[10:0] == x[11:0]) & (data_reg[19:11] == y[11:0]);
-
-        assign VGA_R = visible ? (read ? (point ? R : 4'hf) : 4'hf) : 0;
-        assign VGA_G = visible ? (read ? (point ? G : 4'hf) : 4'hf) : 0;
-        assign VGA_B = visible ? (read ? (point ? B : 4'hf) : 4'hf) : 0;
+        assign VGA_R = visible ? (Triangle ? R : 4'hf) : 4'hf;
+        assign VGA_G = visible ? (Triangle ? G : 4'hf) : 4'hf;
+        assign VGA_B = visible ? (Triangle ? B : 4'hf) : 4'hf;
 
 //-----------------FIM VGA----------------------
 
@@ -118,6 +111,25 @@ module MenRam(
         reg [11:0] pty = 175;
 
 //----------------------------------------------
+
+//----------Outros REG's e WIRE's, ASSIGN---------------
+    reg auxDesenha;
+
+    reg auxTela;
+
+    reg [17:0] countAux = 15;
+
+    wire [11:0] readX;
+    wire [11:0] readY;
+
+    assign readX = SRAM_DQ[11:0];
+    assign readY = SRAM_DQ[23:12];
+
+    wire Triangle;
+
+    assign Triangle = (readX == x) & (readY == y);
+//----------------------------------------------
+
 
 //Estacia de outros modulos
     //Calcula para desenhar o triangulo no VGA
@@ -134,8 +146,6 @@ module MenRam(
         	h_count <= 0;
         	if(v_count == 525) begin
             	v_count <= 0;
-                read <= 1'b1;
-                countRead <= 0;
         	end
         	else begin
             	v_count <= v_count + 1;
@@ -145,47 +155,49 @@ module MenRam(
         	h_count <= h_count + 1;
     	end
     end
-
-    always @(posedge PointTriangle) begin
-        if(PointTriangle) begin
-
-        end
-    end
-
 //--------FIM always VGA--------------------------
 
 //-----------Always Memoria RAM-------------------
     always @(posedge CLOCK_50) begin
-        if(InTriangle) begin
-            if(~read) begin
-                addr_reg <= count + 15;
-                data_reg[10:0] <= x;
-                data_reg[19:11] <= y;
-                we <= 0;
-            end
-        end //end if
-    end //end always
 
-    //Contador de pontos para endereço memoria
-    always @(posedge InTriangle) begin
-        if(InTriangle) begin
-            if(~read) begin
+        if(auxDesenha) begin
+            addr_reg <= countAux;
+            data_reg = 22'bzzzzzzzzzzzzzzzzzzzzzz;
+            we <= 1;
+            if(countAux <= count) begin
+                countAux <= countAux + 1;
+            end
+        end
+        else begin
+            if(InTriangle) begin
+                addr_reg <= count;
+                data_reg[11:0] <= x;
+                data_reg[23:12] <= y;
+                we <= 0;
                 count <= count + 1;
             end
         end
+
     end
 
-    always @(posedge CLOCK_50) begin
-        if(read) begin
-            if(countRead <= count) begin
-                countRead <= countRead + 1;
-            end
-            addr_reg <= countRead;
-            data_reg <= 19'bzzzzzzzzzzzzzzzz;
-            we <= 1;
+    always @(*) begin
+        if(BTN_DESENHA & auxTela) begin
+            auxDesenha <= 1;
+        end
+        else begin
+            auxDesenha <= 0;
         end
     end
 //--------------------------------------------------
+
+    always @ (*) begin
+        if((x == 1220) & (y == 480)) begin
+            auxTela <= 1;
+        end
+        else begin
+            auxTela <= 0;
+        end
+    end
 
 endmodule
 
