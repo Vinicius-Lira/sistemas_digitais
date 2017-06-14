@@ -52,8 +52,8 @@ module MenRam(
 
 //-----------------VGA-----------------------------
     //---------------WIRE's VGA--------------------
-        wire [12:0] x;
-        wire [12:0] y;
+        wire [11:0] x;
+        wire [11:0] y;
 
         wire [11:0] P1X = 200;
         wire [11:0] P1Y = 100;
@@ -70,6 +70,8 @@ module MenRam(
         wire InTriangle;
 
         wire visible;
+
+        wire point;
     //------------------------------------------
 
     //-----------------REG's VGA-------------------
@@ -99,15 +101,30 @@ module MenRam(
 
         assign visible = (v_count > 35) & (v_count < 515) & (h_count > 285) & (h_count < 1505);
 
-        assign VGA_R = visible ? (read ? R : 4'hf) : 0;
-        assign VGA_G = visible ? (read ? G : 4'hf) : 0;
-        assign VGA_B = visible ? (read ? B : 4'hf) : 0;
+        assign point = (data_reg[10:0] == x[11:0]) & (data_reg[19:11] == y[11:0]);
+
+        assign VGA_R = visible ? (read ? (point ? R : 4'hf) : 4'hf) : 0;
+        assign VGA_G = visible ? (read ? (point ? G : 4'hf) : 4'hf) : 0;
+        assign VGA_B = visible ? (read ? (point ? B : 4'hf) : 4'hf) : 0;
 
 //-----------------FIM VGA----------------------
 
-//Estacia de outros modulos
+//----------------REG's Ponto no Triangulo------
+        reg PointTriagle;
+//----------------------------------------------
 
+//----------------WIRE's Ponto no Triangulo------
+        reg [11:0] ptx = 430;
+        reg [11:0] pty = 175;
+
+//----------------------------------------------
+
+//Estacia de outros modulos
+    //Calcula para desenhar o triangulo no VGA
     PointInTriangle pt( P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTY, InTriangle);
+
+    //Calcula para achar se o ponto está no triangulo
+    PointInTriangle PointPT( P1X, P1Y, P2X, P2Y, P3X, P3Y, ptx, pty, PointTriangle);
 
 //---------------------------------------
 
@@ -127,6 +144,12 @@ module MenRam(
     	else begin
         	h_count <= h_count + 1;
     	end
+    end
+
+    always @(posedge PointTriangle) begin
+        if(PointTriangle) begin
+
+        end
     end
 
 //--------FIM always VGA--------------------------
