@@ -32,8 +32,7 @@ module MenRam(
     //---------------ASSIGN's RAM------------------
         assign output_leds[7:0] = SRAM_DQ[7:0];
 
-        //assign SRAM_ADDR = addr_reg;
-		  assign SRAM_ADDR = {x,y};
+		assign SRAM_ADDR = {x,y};
         assign SRAM_DQ = data_reg;
 
         assign LEDR[7:0] = output_leds[7:0];
@@ -52,29 +51,98 @@ module MenRam(
         wire [11:0] x;
         wire [11:0] y;
 
-        wire [11:0] P1X = 100;
-        wire [11:0] P1Y = 250;
+        //Ponto 1
+        wire [11:0] P1X1 = 440;
+        wire [11:0] P1Y1 = 60;
 
-        wire [11:0] P2X = 500;
-        wire [11:0] P2Y = 250;
+        wire [11:0] P2X1 = 440;
+        wire [11:0] P2Y1 = 140;
 
-        wire [11:0] P3X = 500;
-        wire [11:0] P3Y = 100;
+        wire [11:0] P3X1 = 520;
+        wire [11:0] P3Y1 = 140;
 
         wire [11:0] PTX;
         wire [11:0] PTY;
 
-		  wire [11:0] P1X2 = 300;
-        wire [11:0] P1Y2 = 250;
+        //Ponto 2
+		wire [11:0] P1X2 = 440;
+        wire [11:0] P1Y2 = 140;
 
-        wire [11:0] P2X2 = 750;
-        wire [11:0] P2Y2 = 250;
+        wire [11:0] P2X2 = 520;
+        wire [11:0] P2Y2 = 140;
 
-        wire [11:0] P3X2 = 750;
-        wire [11:0] P3Y2 = 100;
+        wire [11:0] P3X2 = 520;
+        wire [11:0] P3Y2 = 220;
 
-		  wire [11:0] pt_x = 470;
-		  wire [11:0] pt_y = 185;
+        //Ponto 3
+        wire [11:0] P1X3 = 520;
+        wire [11:0] P1Y3 = 220;
+
+        wire [11:0] P2X3 = 690;
+        wire [11:0] P2Y3 = 220;
+
+        wire [11:0] P3X3 = 690;
+        wire [11:0] P3Y3 = 400;
+
+        //Ponto 4
+        wire [11:0] P1X4 = 690;
+        wire [11:0] P1Y4 = 220;
+
+        wire [11:0] P2X4 = 690;
+        wire [11:0] P2Y4 = 350;
+
+        wire [11:0] P3X4 = 818;
+        wire [11:0] P3Y4 = 350;
+
+        //Ponto 5
+        wire [11:0] P1X5 = 690;
+        wire [11:0] P1Y5 = 220;
+
+        wire [11:0] P2X5 = 870;
+        wire [11:0] P2Y5 = 220;
+
+        wire [11:0] P3X5 = 870;
+        wire [11:0] P3Y5 = 400;
+
+        //Ponto 6
+        wire [11:0] P1X6 = 870;
+        wire [11:0] P1Y6 = 220;
+
+        wire [11:0] P2X6 = 1094;
+        wire [11:0] P2Y6 = 220;
+
+        wire [11:0] P3X6 = 982;
+        wire [11:0] P3Y6 = 125;
+
+        //Ponto 7
+        wire [11:0] P1X7 = 870;
+        wire [11:0] P1Y7 = 220;
+
+        wire [11:0] P2X7 = 870;
+        wire [11:0] P2Y7 = 55;
+
+        wire [11:0] P3X7 = 982;
+        wire [11:0] P3Y7 = 125;
+
+        //Ponto 8
+        wire [11:0] P1X8 = 982;
+        wire [11:0] P1Y8 = 125;
+
+        wire [11:0] P2X8 = 1094;
+        wire [11:0] P2Y8 = 55;
+
+        wire [11:0] P3X8 = 1094;
+        wire [11:0] P3Y8 = 220;
+
+        //Ponto 9
+        wire [11:0] P1X9 = 870;
+        wire [11:0] P1Y9 = 220;
+
+        wire [11:0] P2X9 = 982;
+        wire [11:0] P2Y9 = 125;
+
+        wire [11:0] P3X9 = 1094;
+        wire [11:0] P3Y9 = 220;
 
         wire InTriangle;
 
@@ -86,15 +154,9 @@ module MenRam(
         reg [30:0] h_count = 0;
         reg [30:0] v_count = 0;
 
-        reg [3:0] R = 4'hf;
-        reg [3:0] G = 4'h0;
-        reg [3:0] B = 4'h0;
-
     //-----------------------------------------
 
     //-------------ASSIGN's VGA-----------------
-        //assign LEDG = 4'b1111;
-
         assign VGA_HS = ~(h_count < 190);
         assign VGA_VS = ~(v_count < 2);
 
@@ -106,32 +168,33 @@ module MenRam(
 
         assign visible = (v_count > 35) & (v_count < 515) & (h_count > 285) & (h_count < 1505);
 
-       /* assign VGA_R = visible ? (Triangle ? R : 4'hf) : 4'h0;
-        assign VGA_G = visible ? (Triangle ? G : 4'hf) : 4'h0;
-        assign VGA_B = visible ? (Triangle ? B : 4'hf) : 4'h0;*/
-		   assign VGA_R = visible ? SRAM_DQ[3:0] : 4'h0;
+	    assign VGA_R = visible ? SRAM_DQ[3:0] : 4'h0;
         assign VGA_G = visible ? SRAM_DQ[7:4] : 4'h0;
         assign VGA_B = visible ? SRAM_DQ[11:8] : 4'h0;
 
 //-----------------FIM VGA----------------------
 
 //----------Outros REG's e WIRE's, ASSIGN---------------
-    reg auxDesenha;
+        reg auxDesenha;
+
+        wire T1, T2, T3, T4, T5, T6, T7, T8, T9;
 //----------------------------------------------
 
- wire T1, T2, T3, T4, T5, T6;
- assign InTriangle = T1 | T2 | T3 | T4 | T5 | T6;
-//Estacia de outros modulos
-    //Calcula para desenhar o triangulo no VGA
-    PointInTriangle pt( P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTY, T1);
-	 PointInTriangle pt2( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T2);
-	 PointInTriangle pt3( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T3);
-	 PointInTriangle pt4( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T4);
-	 PointInTriangle pt5( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T5);
-	 PointInTriangle pt6( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T6);
 
-    //Calcula para achar se o ponto está no triangulo
-    PointInTriangle PointPT( P1X, P1Y, P2X, P2Y, P3X, P3Y, pt_x, pt_y, PointTriangle);
+        assign InTriangle = T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9;
+
+
+//Estacia de outros modulos
+        //Calcula para desenhar o triangulo no VGA
+        PointInTriangle pt1( P1X1, P1Y1, P2X1, P2Y1, P3X1, P3Y1, PTX, PTY, T1);
+	    PointInTriangle pt2( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T2);
+	    PointInTriangle pt3( P1X3, P1Y3, P2X3, P2Y3, P3X3, P3Y3, PTX, PTY, T3);
+	    PointInTriangle pt4( P1X4, P1Y4, P2X4, P2Y4, P3X4, P3Y4, PTX, PTY, T4);
+	    PointInTriangle pt5( P1X5, P1Y5, P2X5, P2Y5, P3X5, P3Y5, PTX, PTY, T5);
+	    PointInTriangle pt6( P1X6, P1Y6, P2X6, P2Y6, P3X6, P3Y6, PTX, PTY, T6);
+        PointInTriangle pt7( P1X7, P1Y7, P2X7, P2Y7, P3X7, P3Y7, PTX, PTY, T7);
+        PointInTriangle pt8( P1X8, P1Y8, P2X8, P2Y8, P3X8, P3Y8, PTX, PTY, T8);
+        PointInTriangle pt9( P1X9, P1Y9, P2X9, P2Y9, P3X9, P3Y9, PTX, PTY, T9);
 
 //---------------------------------------
 
@@ -169,12 +232,12 @@ module MenRam(
     end
 
     always @(KEY) begin
-			//Bot~ao para desenhar o triangulo na tela
+			//Botão para desenhar o triangulo na tela
         if(~KEY[0]) begin
             auxDesenha <= 0;
 				LEDG <= 4'ha;
         end
-		  //Bot~ao para apagar o triangulo da tela
+		  //Botão para apagar o triangulo da tela
 		  if(~KEY[1]) begin
 				auxDesenha <= 1;
 				LEDG <= 4'b1100;
