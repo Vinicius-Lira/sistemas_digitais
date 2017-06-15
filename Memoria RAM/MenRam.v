@@ -64,6 +64,15 @@ module MenRam(
         wire [11:0] PTX;
         wire [11:0] PTY;
 		  
+		  wire [11:0] P1X2 = 300;
+        wire [11:0] P1Y2 = 250;
+
+        wire [11:0] P2X2 = 750;
+        wire [11:0] P2Y2 = 250;
+
+        wire [11:0] P3X2 = 750;
+        wire [11:0] P3Y2 = 100;
+		  
 		  wire [11:0] pt_x = 470;
 		  wire [11:0] pt_y = 185;
 
@@ -110,11 +119,17 @@ module MenRam(
     reg auxDesenha;
 //----------------------------------------------
 
-
+ wire T1, T2, T3, T4, T5, T6;
+ assign InTriangle = T1 | T2 | T3 | T4 | T5 | T6;
 //Estacia de outros modulos
     //Calcula para desenhar o triangulo no VGA
-    PointInTriangle pt( P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTY, InTriangle);
-
+    PointInTriangle pt( P1X, P1Y, P2X, P2Y, P3X, P3Y, PTX, PTY, T1);
+	 PointInTriangle pt2( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T2);
+	 PointInTriangle pt3( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T3);
+	 PointInTriangle pt4( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T4);
+	 PointInTriangle pt5( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T5);
+	 PointInTriangle pt6( P1X2, P1Y2, P2X2, P2Y2, P3X2, P3Y2, PTX, PTY, T6);
+	 
     //Calcula para achar se o ponto está no triangulo
     PointInTriangle PointPT( P1X, P1Y, P2X, P2Y, P3X, P3Y, pt_x, pt_y, PointTriangle);
 
@@ -148,13 +163,7 @@ module MenRam(
 		  
 		  if(~auxDesenha) begin
 				//Escreve na memoria
-				data_reg <= PointTriangle ? 12'hfff : 12'h000;
-				if(PointTriangle) begin
-					data_reg <= PointTriangle ? 12'hfff : 12'h000;
-				end
-				else begin
-					data_reg <= InTriangle ? 12'h00f : 12'hff0;
-				end
+				data_reg <= InTriangle ? 12'h00f : 12'hff0;
 				we <= 0;
 		  end
     end
