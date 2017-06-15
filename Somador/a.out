@@ -1,0 +1,126 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x1a4a700 .scope module, "Somador" "Somador" 2 1;
+ .timescale 0 0;
+RS_0x7f48435a8798/0/0 .resolv tri, L_0x1a6f010, L_0x1a6faf0, L_0x1a705a0, L_0x1a70f20;
+RS_0x7f48435a8798/0/4 .resolv tri, L_0x1a71690, C4<zzzzz>, C4<zzzzz>, C4<zzzzz>;
+RS_0x7f48435a8798 .resolv tri, RS_0x7f48435a8798/0/0, RS_0x7f48435a8798/0/4, C4<zzzzz>, C4<zzzzz>;
+v0x1a6e8f0_0 .net8 "Cout", 4 0, RS_0x7f48435a8798; 5 drivers
+v0x1a6e9b0_0 .net "KEY", 2 0, C4<zzz>; 0 drivers
+RS_0x7f48435a87f8/0/0 .resolv tri, L_0x1a6f100, L_0x1a6fb90, L_0x1a70640, L_0x1a71060;
+RS_0x7f48435a87f8/0/4 .resolv tri, L_0x1a71a40, L_0x1a71980, C4<zzzzzz>, C4<zzzzzz>;
+RS_0x7f48435a87f8 .resolv tri, RS_0x7f48435a87f8/0/0, RS_0x7f48435a87f8/0/4, C4<zzzzzz>, C4<zzzzzz>;
+v0x1a6ea50_0 .net8 "LEDR", 5 0, RS_0x7f48435a87f8; 6 drivers
+v0x1a6eaf0_0 .net "SW", 9 0, C4<zzzzzzzzzz>; 0 drivers
+v0x1a6eba0_0 .net *"_s51", 0 0, L_0x1a71bb0; 1 drivers
+L_0x1a6ee80 .part C4<zzzzzzzzzz>, 0, 1;
+L_0x1a6ef20 .part C4<zzzzzzzzzz>, 5, 1;
+L_0x1a6f010 .part/pv L_0x1a6ed50, 0, 1, 5;
+L_0x1a6f100 .part/pv L_0x1a6ec40, 0, 1, 6;
+L_0x1a6f720 .part C4<zzzzzzzzzz>, 1, 1;
+L_0x1a6f850 .part C4<zzzzzzzzzz>, 6, 1;
+L_0x1a6fa50 .part RS_0x7f48435a8798, 0, 1;
+L_0x1a6faf0 .part/pv L_0x1a6f620, 1, 1, 5;
+L_0x1a6fb90 .part/pv L_0x1a6f2b0, 1, 1, 6;
+L_0x1a70140 .part C4<zzzzzzzzzz>, 2, 1;
+L_0x1a702d0 .part C4<zzzzzzzzzz>, 7, 1;
+L_0x1a70400 .part RS_0x7f48435a8798, 1, 1;
+L_0x1a705a0 .part/pv L_0x1a70040, 2, 1, 5;
+L_0x1a70640 .part/pv L_0x1a6fd30, 2, 1, 6;
+L_0x1a70b10 .part C4<zzzzzzzzzz>, 3, 1;
+L_0x1a70c40 .part C4<zzzzzzzzzz>, 8, 1;
+L_0x1a70e80 .part RS_0x7f48435a8798, 2, 1;
+L_0x1a70f20 .part/pv L_0x1a709d0, 3, 1, 5;
+L_0x1a71060 .part/pv L_0x1a70760, 3, 1, 6;
+L_0x1a71560 .part C4<zzzzzzzzzz>, 4, 1;
+L_0x1a70fc0 .part C4<zzzzzzzzzz>, 9, 1;
+L_0x1a717d0 .part RS_0x7f48435a8798, 3, 1;
+L_0x1a71690 .part/pv L_0x1a71420, 4, 1, 5;
+L_0x1a71a40 .part/pv L_0x1a71160, 4, 1, 6;
+L_0x1a71980 .part/pv L_0x1a71bb0, 5, 1, 6;
+L_0x1a71bb0 .part RS_0x7f48435a8798, 4, 1;
+S_0x1a6e580 .scope module, "S1" "meioSomador" 2 7, 2 16, S_0x1a4a700;
+ .timescale 0 0;
+L_0x1a6ec40 .functor XOR 1, L_0x1a6ee80, L_0x1a6ef20, C4<0>, C4<0>;
+L_0x1a6ed50 .functor AND 1, L_0x1a6ee80, L_0x1a6ef20, C4<1>, C4<1>;
+v0x1a6e670_0 .net "Cout", 0 0, L_0x1a6ed50; 1 drivers
+v0x1a6e730_0 .net "S", 0 0, L_0x1a6ec40; 1 drivers
+v0x1a6e7d0_0 .net "a", 0 0, L_0x1a6ee80; 1 drivers
+v0x1a6e870_0 .net "b", 0 0, L_0x1a6ef20; 1 drivers
+S_0x1a6dea0 .scope module, "S2" "somadorCompleto" 2 8, 2 26, S_0x1a4a700;
+ .timescale 0 0;
+L_0x1a6f1f0 .functor XOR 1, L_0x1a6f720, L_0x1a6f850, C4<0>, C4<0>;
+L_0x1a6f2b0 .functor XOR 1, L_0x1a6f1f0, L_0x1a6fa50, C4<0>, C4<0>;
+L_0x1a6f390 .functor XOR 1, L_0x1a6f720, L_0x1a6f850, C4<0>, C4<0>;
+L_0x1a6f4c0 .functor AND 1, L_0x1a6f390, L_0x1a6fa50, C4<1>, C4<1>;
+L_0x1a6f5c0 .functor AND 1, L_0x1a6f720, L_0x1a6f850, C4<1>, C4<1>;
+L_0x1a6f620 .functor XOR 1, L_0x1a6f4c0, L_0x1a6f5c0, C4<0>, C4<0>;
+v0x1a6df90_0 .net "Cin", 0 0, L_0x1a6fa50; 1 drivers
+v0x1a6e050_0 .net "Cout", 0 0, L_0x1a6f620; 1 drivers
+v0x1a6e0f0_0 .net "S", 0 0, L_0x1a6f2b0; 1 drivers
+v0x1a6e190_0 .net *"_s0", 0 0, L_0x1a6f1f0; 1 drivers
+v0x1a6e210_0 .net *"_s4", 0 0, L_0x1a6f390; 1 drivers
+v0x1a6e2b0_0 .net *"_s6", 0 0, L_0x1a6f4c0; 1 drivers
+v0x1a6e350_0 .net *"_s8", 0 0, L_0x1a6f5c0; 1 drivers
+v0x1a6e3f0_0 .net "a", 0 0, L_0x1a6f720; 1 drivers
+v0x1a6e4e0_0 .net "b", 0 0, L_0x1a6f850; 1 drivers
+S_0x1a6d7c0 .scope module, "S3" "somadorCompleto" 2 9, 2 26, S_0x1a4a700;
+ .timescale 0 0;
+L_0x1a6fcd0 .functor XOR 1, L_0x1a70140, L_0x1a702d0, C4<0>, C4<0>;
+L_0x1a6fd30 .functor XOR 1, L_0x1a6fcd0, L_0x1a70400, C4<0>, C4<0>;
+L_0x1a6fde0 .functor XOR 1, L_0x1a70140, L_0x1a702d0, C4<0>, C4<0>;
+L_0x1a6fee0 .functor AND 1, L_0x1a6fde0, L_0x1a70400, C4<1>, C4<1>;
+L_0x1a6ffe0 .functor AND 1, L_0x1a70140, L_0x1a702d0, C4<1>, C4<1>;
+L_0x1a70040 .functor XOR 1, L_0x1a6fee0, L_0x1a6ffe0, C4<0>, C4<0>;
+v0x1a6d8b0_0 .net "Cin", 0 0, L_0x1a70400; 1 drivers
+v0x1a6d970_0 .net "Cout", 0 0, L_0x1a70040; 1 drivers
+v0x1a6da10_0 .net "S", 0 0, L_0x1a6fd30; 1 drivers
+v0x1a6dab0_0 .net *"_s0", 0 0, L_0x1a6fcd0; 1 drivers
+v0x1a6db30_0 .net *"_s4", 0 0, L_0x1a6fde0; 1 drivers
+v0x1a6dbd0_0 .net *"_s6", 0 0, L_0x1a6fee0; 1 drivers
+v0x1a6dc70_0 .net *"_s8", 0 0, L_0x1a6ffe0; 1 drivers
+v0x1a6dd10_0 .net "a", 0 0, L_0x1a70140; 1 drivers
+v0x1a6de00_0 .net "b", 0 0, L_0x1a702d0; 1 drivers
+S_0x1a6d0e0 .scope module, "S4" "somadorCompleto" 2 10, 2 26, S_0x1a4a700;
+ .timescale 0 0;
+L_0x1a70270 .functor XOR 1, L_0x1a70b10, L_0x1a70c40, C4<0>, C4<0>;
+L_0x1a70760 .functor XOR 1, L_0x1a70270, L_0x1a70e80, C4<0>, C4<0>;
+L_0x1a707c0 .functor XOR 1, L_0x1a70b10, L_0x1a70c40, C4<0>, C4<0>;
+L_0x1a70870 .functor AND 1, L_0x1a707c0, L_0x1a70e80, C4<1>, C4<1>;
+L_0x1a70970 .functor AND 1, L_0x1a70b10, L_0x1a70c40, C4<1>, C4<1>;
+L_0x1a709d0 .functor XOR 1, L_0x1a70870, L_0x1a70970, C4<0>, C4<0>;
+v0x1a6d1d0_0 .net "Cin", 0 0, L_0x1a70e80; 1 drivers
+v0x1a6d290_0 .net "Cout", 0 0, L_0x1a709d0; 1 drivers
+v0x1a6d330_0 .net "S", 0 0, L_0x1a70760; 1 drivers
+v0x1a6d3d0_0 .net *"_s0", 0 0, L_0x1a70270; 1 drivers
+v0x1a6d450_0 .net *"_s4", 0 0, L_0x1a707c0; 1 drivers
+v0x1a6d4f0_0 .net *"_s6", 0 0, L_0x1a70870; 1 drivers
+v0x1a6d590_0 .net *"_s8", 0 0, L_0x1a70970; 1 drivers
+v0x1a6d630_0 .net "a", 0 0, L_0x1a70b10; 1 drivers
+v0x1a6d720_0 .net "b", 0 0, L_0x1a70c40; 1 drivers
+S_0x1a486b0 .scope module, "S5" "somadorCompleto" 2 11, 2 26, S_0x1a4a700;
+ .timescale 0 0;
+L_0x1a71100 .functor XOR 1, L_0x1a71560, L_0x1a70fc0, C4<0>, C4<0>;
+L_0x1a71160 .functor XOR 1, L_0x1a71100, L_0x1a717d0, C4<0>, C4<0>;
+L_0x1a711c0 .functor XOR 1, L_0x1a71560, L_0x1a70fc0, C4<0>, C4<0>;
+L_0x1a712c0 .functor AND 1, L_0x1a711c0, L_0x1a717d0, C4<1>, C4<1>;
+L_0x1a713c0 .functor AND 1, L_0x1a71560, L_0x1a70fc0, C4<1>, C4<1>;
+L_0x1a71420 .functor XOR 1, L_0x1a712c0, L_0x1a713c0, C4<0>, C4<0>;
+v0x1a46330_0 .net "Cin", 0 0, L_0x1a717d0; 1 drivers
+v0x1a6cb40_0 .net "Cout", 0 0, L_0x1a71420; 1 drivers
+v0x1a6cbe0_0 .net "S", 0 0, L_0x1a71160; 1 drivers
+v0x1a6cc80_0 .net *"_s0", 0 0, L_0x1a71100; 1 drivers
+v0x1a6cd30_0 .net *"_s4", 0 0, L_0x1a711c0; 1 drivers
+v0x1a6cdd0_0 .net *"_s6", 0 0, L_0x1a712c0; 1 drivers
+v0x1a6ceb0_0 .net *"_s8", 0 0, L_0x1a713c0; 1 drivers
+v0x1a6cf50_0 .net "a", 0 0, L_0x1a71560; 1 drivers
+v0x1a6d040_0 .net "b", 0 0, L_0x1a70fc0; 1 drivers
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "Somador.v";
