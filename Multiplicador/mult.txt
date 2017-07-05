@@ -1,0 +1,68 @@
+                                                              SW[4]   SW[3]   SW[2]   SW[1]   SW[0]
+                                                              SW[9]   SW[8]   SW[7]   SW[6]   SW[5]
+-------------------------------------------------------------------------------------------------------
+                                                SW[4]SW[5] SW[3]SW[5] SW[2]SW[5] SW[1]SW[5] SW[0]SW[5]
+                                     SW[4]SW[6] SW[3]SW[6] SW[2]SW[6] SW[1]SW[6] SW[0]SW[6]
+                          SW[4]SW[7] SW[3]SW[7] SW[2]SW[7] SW[1]SW[7] SW[0]SW[7]
+               SW[4]SW[8] SW[3]SW[8] SW[2]SW[8] SW[1]SW[8] SW[0]SW[8]
+    SW[4]SW[9] SW[3]SW[9] SW[2]SW[9] SW[1]SW[9] SW[0]SW[9]
+-------------------------------------------------------------------------------------------------------
+p9      p8         p7         p6         p5         p4         p3         p2         p1         p0
+
+p0 = a0b0
+p1 = a1b0 + a0b1
+p2 = a2b0 + a1b1 + a0b2 + Cout1
+p3 = a3b0 + a2b1 + a1b2 + a0b3 + Cout2
+p4 = a4b0 + a3b1 + a2b2 + a1b3 + a0b4 + Cout3
+p5 = a4b1 + a3b2 + a2b3 + a1b4 + Cout4
+p6 = a4b2 + a3b3 + a2b4 + Cout
+p7 = a4b3 + a3b4 + Cout
+p8 = a4b4 + Cout
+p9 = Cout
+
+wire [9:0] aux1;
+wire [9:0] aux2;
+wire [9:0] aux3;
+
+reg [9:0] S;
+
+reg [9:0] linha1;
+reg [9:0] linha2;
+reg [9:0] linha3;
+reg [9:0] linha4;
+reg [9:0] linha5;
+
+linha1[0] = SW[0] & SW[5];
+linha1[1] = SW[1] & SW[5];
+linha1[2] = SW[2] & SW[5];
+linha1[3] = SW[3] & SW[5];
+linha1[4] = SW[4] & SW[5];
+
+linha2[0] = SW[0] & SW[6];
+linha2[1] = SW[1] & SW[6];
+linha2[2] = SW[2] & SW[6];
+linha2[3] = SW[3] & SW[6];
+linha2[4] = SW[4] & SW[6];
+
+linha3[0] = SW[0] & SW[7];
+linha3[1] = SW[1] & SW[7];
+linha3[2] = SW[2] & SW[7];
+linha3[3] = SW[3] & SW[7];
+linha3[4] = SW[4] & SW[7];
+
+linha4[0] = SW[0] & SW[8];
+linha4[1] = SW[1] & SW[8];
+linha4[2] = SW[2] & SW[8];
+linha4[3] = SW[3] & SW[8];
+linha4[4] = SW[4] & SW[8];
+
+linha5[0] = SW[0] & SW[9];
+linha5[1] = SW[1] & SW[9];
+linha5[2] = SW[2] & SW[9];
+linha5[3] = SW[3] & SW[9];
+linha5[4] = SW[4] & SW[9];
+
+somador S1(linha1, linha2, aux1);
+somador S2(linha3, linha4, aux2);
+somador S3(aux1, aux2, aux3);
+somador S4(aux3, linha5, S);
