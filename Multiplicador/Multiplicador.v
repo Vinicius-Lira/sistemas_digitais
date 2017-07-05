@@ -1,5 +1,4 @@
 module Multiplicador(
-	 input CLOCK_50,
     input [9:0] SW,
     output [7:0] LEDG,
     output [7:0] LEDR
