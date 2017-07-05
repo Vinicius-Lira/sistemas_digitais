@@ -12,7 +12,7 @@ module Multiplicador(
 
 		assign LEDG[7:0] = S[7:0];
 		assign LEDR[1:0] = S[9:8];
-
+		
 		wire [9:0] linha1;
 		wire [9:0] linha2;
 		wire [9:0] linha3;
@@ -50,8 +50,8 @@ module Multiplicador(
 		assign linha5[4] = SW[4] & SW[9];
 
 		somador S1(linha1, linha2, aux1);
-		somador S2(linha3, linha4, aux2);
-		somador S3(aux1, aux2, aux3);
+		somador S2(aux1, linha3, aux2);
+		somador S3(aux2, linha4, aux3);
 		somador S4(aux3, linha5, S);
 
 endmodule
