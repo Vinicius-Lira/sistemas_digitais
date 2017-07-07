@@ -1,4 +1,4 @@
-module Multilpicador(
+module Multiplicador(
     input [9:0] SW,
     output [7:0] LEDG,
     output [7:0] LEDR
@@ -69,8 +69,7 @@ module Multilpicador(
 		somadorCompleto aux2_l4_4(aux1[4], linha3[4],Cout2[2], Cout2[3], aux2[4]);
 		somadorCompleto aux2_l5_5(aux1[5], linha3[5],Cout2[3], Cout2[4], aux2[5]);
 		somadorCompleto aux2_l6_6(aux1[6], linha3[6],Cout2[4], Cout2[5], aux2[6]);
-		somadorCompleto aux2_l7_7(aux1[7], linha3[7],Cout2[5], Cout2[6], aux2[7]);
-		assign aux2[8] = Cout2[6];
+		assign aux2[7] = Cout2[5];
 		
 		assign aux3[0] = aux2[0];
 		meioSomador aux3_l4_1(aux2[1], linha4[1],Cout3[0], aux3[1]);
